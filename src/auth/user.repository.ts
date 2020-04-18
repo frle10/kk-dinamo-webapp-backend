@@ -39,7 +39,7 @@ export class UserRepository extends Repository<User> {
 		if (user && (await user.validatePassword(password))) {
 			return { username: user.username, role: user.role };
 		} else {
-			return null;
+			return { username: null, role: null };
 		}
 	}
 

@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { UserRole } from './user.role.enum';
 import * as bcrypt from 'bcrypt';
+import { IsIn } from 'class-validator';
 
 @Entity()
 @Unique(['username'])
@@ -24,6 +25,7 @@ export class User extends BaseEntity {
 	salt: string;
 
 	@Column()
+	@IsIn(Object.values(UserRole))
 	role: UserRole;
 
 	async validatePassword(password: string): Promise<boolean> {
