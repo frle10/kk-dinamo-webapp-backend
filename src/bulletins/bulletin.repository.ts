@@ -1,4 +1,5 @@
-import { Repository, EntityRepository } from 'typeorm';
+import { NotFoundException } from '@nestjs/common';
+import { Repository, EntityRepository, Not } from 'typeorm';
 import { GetBulletinsFilterDto } from './dto/get-bulletins-filter.dto';
 import { Bulletin } from './bulletin.entity';
 import { BulletinDto } from './dto/bulletin.dto';
@@ -7,7 +8,6 @@ import { BulletinDto } from './dto/bulletin.dto';
 export class BulletinRepository extends Repository<Bulletin> {
 
 	async getBulletins(bulletinFilterDto: GetBulletinsFilterDto): Promise<Bulletin[]> {
-	
 		const { title, content } = bulletinFilterDto;
 		const query = this.createQueryBuilder('bulletin');
 
@@ -24,7 +24,6 @@ export class BulletinRepository extends Repository<Bulletin> {
 	}
 
 	async addBulletin(bulletinDto: BulletinDto): Promise<Bulletin> {
-		console.log('I DID IT LOL');
 		const bulletin = new Bulletin();
 		this.setBulletinProperties(bulletin, bulletinDto);
 
@@ -33,6 +32,9 @@ export class BulletinRepository extends Repository<Bulletin> {
 	}
 
 	async updateBulletin(bulletin: Bulletin, updateBulletinDto: BulletinDto): Promise<Bulletin> {
+		if (!bulletin) {
+			throw new NotFoundException('Specified bulletin does not exist.');
+		}
 		this.setBulletinProperties(bulletin, updateBulletinDto);
 
 		await bulletin.save();
@@ -51,6 +53,13 @@ export class BulletinRepository extends Repository<Bulletin> {
 		bulletin.content = content;
 		bulletin.type = type;
 		bulletin.images = images;
+
+		if (!bulletin.dateCreated) {
+			bulletin.dateCreated = new Date((new Date()).toISOString());
+		}
+
+		bulletin.dateLastModified = new Date((new Date()).toISOString());
+
 	}
 
 }

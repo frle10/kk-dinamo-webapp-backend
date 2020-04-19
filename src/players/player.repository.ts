@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { Repository, EntityRepository } from 'typeorm';
 import { GetPlayersFilterDto } from './dto/get-players-filter.dto';
 import { Player } from './player.entity';
@@ -30,6 +31,10 @@ export class PlayerRepository extends Repository<Player> {
 	}
 
 	async updatePlayer(player: Player, updatePlayerDto: PlayerDto): Promise<Player> {
+		if (!player) {
+			throw new NotFoundException('Specified player does not exist.');
+		}
+
 		this.setPlayerProperties(player, updatePlayerDto);
 		
 		await player.save();

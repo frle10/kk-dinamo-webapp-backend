@@ -1,6 +1,6 @@
 export enum PlayerType {
-	SENIOR,
-	JUNIOR,
-	CADET,
-	YOUNG_CADET,
+	SENIOR = 'senior',
+	JUNIOR = 'junior',
+	CADET = 'cadet',
+	YOUNG_CADET = 'young-cadet',
 }

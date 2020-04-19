@@ -1,7 +1,7 @@
 export enum PlayerPosition {
-	POINT_GUARD = 'PG',
-	SHOOTING_GUARD = 'SG',
-	SMALL_FORWARD = 'SF',
-	POWER_FORWARD = 'PF',
-	CENTER = 'C',
+	PG = 'point-guard',
+	SG = 'shooting-guard',
+	SF = 'small-forward',
+	PF = 'power-forward',
+	C = 'center',
 }
