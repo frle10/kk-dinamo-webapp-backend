@@ -15,6 +15,6 @@ export class BulletinDto {
 	type: BulletinType;
 
 	@IsOptional()
-	@IsNumber({}, {each: true})
+	@IsNumber({}, { each: true })
 	images: Array<number>;
 }

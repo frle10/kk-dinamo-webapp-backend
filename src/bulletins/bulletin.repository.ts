@@ -1,5 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
-import { Repository, EntityRepository, Not } from 'typeorm';
+import { Repository, EntityRepository} from 'typeorm';
 import { GetBulletinsFilterDto } from './dto/get-bulletins-filter.dto';
 import { Bulletin } from './bulletin.entity';
 import { BulletinDto } from './dto/bulletin.dto';

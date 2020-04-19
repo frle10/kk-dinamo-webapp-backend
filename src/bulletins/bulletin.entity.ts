@@ -21,16 +21,15 @@ export class Bulletin extends BaseEntity {
 	@OneToMany(type => Image, image => image.ID, {
 		cascade: true,
 	})
-	@JoinColumn
+	@JoinColumn()
 	*/
-
 	@Column("int", { array: true, nullable: true })
 	images: Array<number>;
 
-	@Column('date', { nullable: true })
+	@Column('date')
 	dateCreated: Date;
 
-	@Column('date', { nullable: true })
+	@Column('date')
 	dateLastModified: Date;
 
 }

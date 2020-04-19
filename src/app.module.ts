@@ -4,8 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { BulletinsModule } from './bulletins/bulletins.module';
+import { WebshopModule } from './webshop/webshop.module';
 
 @Module({
-	imports: [TypeOrmModule.forRoot(typeOrmConfig), PlayersModule, BulletinsModule, AuthModule],
+	imports: [TypeOrmModule.forRoot(typeOrmConfig), PlayersModule, BulletinsModule, AuthModule, WebshopModule],
 })
 export class AppModule {}
