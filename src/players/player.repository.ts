@@ -1,4 +1,3 @@
-import { NotFoundException } from '@nestjs/common';
 import { Repository, EntityRepository } from 'typeorm';
 import { GetPlayersFilterDto } from './dto/get-players-filter.dto';
 import { Player } from './player.entity';
