@@ -18,7 +18,7 @@ export class Bulletin extends BaseEntity {
 	type: BulletinType;
 
 	/*
-	@OneToMany(type => Image, image => image.ID, {
+	@OneToMany(type => Image, {
 		cascade: true,
 	})
 	@JoinColumn()

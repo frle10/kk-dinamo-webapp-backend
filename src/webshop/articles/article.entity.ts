@@ -26,7 +26,7 @@ export class Article extends BaseEntity {
 	dateLastModified: Date;
 
 	/*
-	@OneToMany(type => Image, image => image.id, {
+	@OneToMany(type => Image {
 		cascade: true,
 	})
 	@JoinColumn()
@@ -35,7 +35,7 @@ export class Article extends BaseEntity {
 	images: Array<number>;
 
 	/*
-	@ManyToOne(type => Discount, discount => discount.id)
+	@ManyToOne(type => Discount)
 	@JoinColumn()
 	*/
 	@Column({ nullable: true })
