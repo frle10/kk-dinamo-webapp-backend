@@ -1,18 +1,14 @@
-import { IsOptional, IsString, IsDate } from 'class-validator';
+import { IsOptional, IsString, IsDate, IsNotEmpty } from 'class-validator';
 // import { BulletinType } from '../bulletin.type.enum';
 
 export class GetBulletinsFilterDto {
 	@IsOptional()
-	@IsString()
-	title: string;
-
-	@IsOptional()
-	@IsString()
-	content: string;
+	@IsNotEmpty()
+	search: string;
 
 	/*
 	@IsOptional()
-	@IsDate()
+	@IsISO8601({ strict: true })
 	dateCreated: Date;
 	*/
 }

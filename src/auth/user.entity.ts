@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { UserRole } from './user.role.enum';
 import * as bcrypt from 'bcrypt';
-import { IsIn } from 'class-validator';
+import { IsIn, IsISO8601 } from 'class-validator';
 
 @Entity()
 @Unique(['username'])
@@ -27,6 +27,9 @@ export class User extends BaseEntity {
 	@Column()
 	@IsIn(Object.values(UserRole))
 	role: UserRole;
+
+	@Column('date')
+	dateCreated: Date;
 
 	async validatePassword(password: string): Promise<boolean> {
 		const hash = await bcrypt.hash(password, this.salt);

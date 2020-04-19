@@ -2,7 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { Repository, EntityRepository } from 'typeorm';
 import { GetPlayersFilterDto } from './dto/get-players-filter.dto';
 import { Player } from './player.entity';
-import { PlayerDto } from './dto/player.dto';
+import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
 
 @EntityRepository(Player)
 export class PlayerRepository extends Repository<Player> {
@@ -22,38 +23,45 @@ export class PlayerRepository extends Repository<Player> {
 		return players;
 	}
 
-	async registerPlayer(createPlayerDto: PlayerDto): Promise<Player> {
-		const player = new Player();
-		this.setPlayerProperties(player, createPlayerDto);
-
-		await player.save();
-		return player;
-	}
-
-	async updatePlayer(player: Player, updatePlayerDto: PlayerDto): Promise<Player> {
-		if (!player) {
-			throw new NotFoundException('Specified player does not exist.');
-		}
-
-		this.setPlayerProperties(player, updatePlayerDto);
-		
-		await player.save();
-		return player;
-	}
-
-	private setPlayerProperties(player: Player, playerDto: PlayerDto) {
+	async registerPlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {
 		const {
 			firstName,
 			lastName,
 			dateOfBirth,
 			type,
 			position,
-		} = playerDto;
+		} = createPlayerDto;
 
+		const player = new Player();
 		player.firstName = firstName;
 		player.lastName = lastName;
-		player.dateOfBirth = dateOfBirth;
 		player.type = type;
-		player.position = position;
+
+		if (dateOfBirth) player.dateOfBirth = dateOfBirth;
+		if (position) player.position = position;
+
+		await player.save();
+		return player;
+	}
+
+	async updatePlayer(
+		player: Player,
+		updatePlayerDto: UpdatePlayerDto,
+	): Promise<Player> {
+		const {
+			firstName,
+			lastName,
+			dateOfBirth,
+			type,
+			position,
+		} = updatePlayerDto;
+		if (firstName) player.firstName = firstName;
+		if (lastName) player.lastName = lastName;
+		if (dateOfBirth) player.dateOfBirth = dateOfBirth;
+		if (type) player.type = type;
+		if (position) player.position = position;
+
+		await player.save();
+		return player;
 	}
 }

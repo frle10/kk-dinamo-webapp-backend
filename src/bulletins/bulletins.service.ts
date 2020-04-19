@@ -7,7 +7,6 @@ import { BulletinDto } from './dto/bulletin.dto';
 
 @Injectable()
 export class BulletinsService {
-
 	constructor(
 		@InjectRepository(BulletinRepository)
 		private bulletinRepository: BulletinRepository,
@@ -33,9 +32,16 @@ export class BulletinsService {
 		}
 	}
 
-	async updateBulletin(id: number, updateBulletinDto: BulletinDto): Promise<Bulletin> {
+	async updateBulletin(
+		id: number,
+		updateBulletinDto: BulletinDto,
+	): Promise<Bulletin> {
 		const bulletin = await this.getBulletinById(id);
+
+		if (!bulletin) {
+			throw new NotFoundException('Specified bulletin does not exist.');
+		}
+
 		return this.bulletinRepository.updateBulletin(bulletin, updateBulletinDto);
 	}
-
 }

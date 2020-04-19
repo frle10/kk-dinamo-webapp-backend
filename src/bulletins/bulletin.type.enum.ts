@@ -1,3 +1,5 @@
 export enum BulletinType {
-    TEST1 = 'test1',
+	REPORT = 'report',
+	ANNOUNCEMENT = 'announcement',
+	PROMOTION = 'promotion',
 }
