@@ -3,7 +3,8 @@ import { GetPlayersFilterDto } from './dto/get-players-filter.dto';
 import { PlayerRepository } from './player.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Player } from './player.entity';
-import { PlayerDto } from './dto/player.dto';
+import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
 
 @Injectable()
 export class PlayersService {
@@ -13,14 +14,14 @@ export class PlayersService {
 	) {}
 
 	getPlayers(playerFilterDto: GetPlayersFilterDto): Promise<Player[]> {
-    return this.playerRepository.getPlayers(playerFilterDto);
-  }
+		return this.playerRepository.getPlayers(playerFilterDto);
+	}
 
 	getPlayerById(id: number): Promise<Player> {
 		return this.playerRepository.findOne(id);
 	}
 
-	registerPlayer(createPlayerDto: PlayerDto): Promise<Player> {
+	registerPlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {
 		return this.playerRepository.registerPlayer(createPlayerDto);
 	}
 
@@ -32,8 +33,16 @@ export class PlayersService {
 		}
 	}
 
-	async updatePlayer(id: number, updatePlayerDto: PlayerDto): Promise<Player> {
+	async updatePlayer(
+		id: number,
+		updatePlayerDto: UpdatePlayerDto,
+	): Promise<Player> {
 		const player = await this.getPlayerById(id);
+
+		if (!player) {
+			throw new NotFoundException('Specified player does not exist.');
+		}
+
 		return this.playerRepository.updatePlayer(player, updatePlayerDto);
 	}
 }

@@ -1,10 +1,15 @@
-import { BaseEntity, OneToMany, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+	BaseEntity,
+	OneToMany,
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BulletinType } from './bulletin.type.enum';
 // import { Image } from '';
 
 @Entity()
 export class Bulletin extends BaseEntity {
-
 	@PrimaryGeneratedColumn()
 	id: number;
 
@@ -23,7 +28,7 @@ export class Bulletin extends BaseEntity {
 	})
 	@JoinColumn()
 	*/
-	@Column("int", { array: true, nullable: true })
+	@Column('int', { array: true, nullable: true })
 	images: Array<number>;
 
 	@Column('date')
@@ -31,5 +36,4 @@ export class Bulletin extends BaseEntity {
 
 	@Column('date')
 	dateLastModified: Date;
-
 }

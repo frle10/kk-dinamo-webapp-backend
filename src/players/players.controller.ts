@@ -13,15 +13,18 @@ import {
 } from '@nestjs/common';
 import { GetPlayersFilterDto } from './dto/get-players-filter.dto';
 import { PlayersService } from './players.service';
-import { PlayerDto } from './dto/player.dto';
 import { Player } from './player.entity';
+import { CreatePlayerDto } from './dto/create-player.dto';
+import { UpdatePlayerDto } from './dto/update-player.dto';
 
 @Controller('players')
 export class PlayersController {
 	constructor(private playerService: PlayersService) {}
 
 	@Get()
-	getPlayers(@Query(ValidationPipe) playerFilterDto: GetPlayersFilterDto): Promise<Player[]> {
+	getPlayers(
+		@Query(ValidationPipe) playerFilterDto: GetPlayersFilterDto,
+	): Promise<Player[]> {
 		return this.playerService.getPlayers(playerFilterDto);
 	}
 
@@ -32,7 +35,7 @@ export class PlayersController {
 
 	@Post()
 	@UsePipes(ValidationPipe)
-	registerPlayer(@Body() createPlayerDto: PlayerDto): Promise<Player> {
+	registerPlayer(@Body() createPlayerDto: CreatePlayerDto): Promise<Player> {
 		return this.playerService.registerPlayer(createPlayerDto);
 	}
 
@@ -44,7 +47,7 @@ export class PlayersController {
 	@Patch('/:id')
 	updatePlayer(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() updatePlayerDto: PlayerDto,
+		@Body() updatePlayerDto: UpdatePlayerDto,
 	): Promise<Player> {
 		return this.playerService.updatePlayer(id, updatePlayerDto);
 	}

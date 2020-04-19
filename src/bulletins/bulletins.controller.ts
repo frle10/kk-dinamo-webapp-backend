@@ -1,4 +1,4 @@
-import { 
+import {
 	Controller,
 	Get,
 	Post,
@@ -18,11 +18,12 @@ import { Bulletin } from './bulletin.entity';
 
 @Controller('bulletins')
 export class BulletinsController {
-
 	constructor(private bulletinService: BulletinsService) {}
 
 	@Get()
-	getBulletins(@Query(ValidationPipe) bulletinFilterDto: GetBulletinsFilterDto): Promise<Bulletin[]> {
+	getBulletins(
+		@Query(ValidationPipe) bulletinFilterDto: GetBulletinsFilterDto,
+	): Promise<Bulletin[]> {
 		return this.bulletinService.getBulletins(bulletinFilterDto);
 	}
 
@@ -49,5 +50,4 @@ export class BulletinsController {
 	): Promise<Bulletin> {
 		return this.bulletinService.updateBulletin(id, updateBulletinDto);
 	}
-
 }
