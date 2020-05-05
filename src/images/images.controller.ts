@@ -4,6 +4,7 @@ import {
 	UseInterceptors,
 	UploadedFile,
 	UploadedFiles,
+	Get,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ImagesService } from './images.service';
@@ -15,7 +16,10 @@ import { Image } from './image.entity';
 @Controller('images')
 export class ImagesController {
 	constructor(private imagesService: ImagesService) {}
-
+	@Get()
+	re() {
+		return 'adsas';
+	}
 	@Post('/uploadPlayerThumbnail')
 	@UseInterceptors(
 		FileInterceptor('thumbnail', {
