@@ -1,6 +1,6 @@
-import { 
-    Controller,
-    Get,
+import {
+	Controller,
+	Get,
 	Post,
 	Patch,
 	Delete,
@@ -18,11 +18,12 @@ import { GetArticlesFilterDto } from './dto/get-articles-filter.dto';
 
 @Controller('articles')
 export class ArticlesController {
-    
-    constructor(private articleService: ArticlesService) {}
+	constructor(private articleService: ArticlesService) {}
 
 	@Get()
-	getArticles(@Query(ValidationPipe) articleFilterDto: GetArticlesFilterDto): Promise<Article[]> {
+	getArticles(
+		@Query(ValidationPipe) articleFilterDto: GetArticlesFilterDto,
+	): Promise<Article[]> {
 		return this.articleService.getArticles(articleFilterDto);
 	}
 
@@ -45,9 +46,8 @@ export class ArticlesController {
 	@Patch('/:id')
 	updateArticle(
 		@Param('id', ParseIntPipe) id: number,
-        @Body() updateArticleDto: ArticleDto,
+		@Body() updateArticleDto: ArticleDto,
 	): Promise<Article> {
 		return this.articleService.updateArticle(id, updateArticleDto);
 	}
-
 }

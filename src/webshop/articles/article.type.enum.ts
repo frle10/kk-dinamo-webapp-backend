@@ -1,3 +1,4 @@
 export enum ArticleType {
-	HUDICA = 'hudica',
+	HOODIE = 'hoodie',
+	TSHIRT = 'tshirt',
 }

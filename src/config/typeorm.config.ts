@@ -3,7 +3,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 export const typeOrmConfig: TypeOrmModuleOptions = {
 	type: 'postgres',
 	host: 'localhost',
-	port: 47385,
+	port: 5432,
 	username: 'postgres',
 	password: 'postgres',
 	database: 'dinamo-database',

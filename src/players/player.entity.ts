@@ -4,10 +4,12 @@ import {
 	Column,
 	OneToOne,
 	Entity,
+	JoinColumn,
 } from 'typeorm';
 import { PlayerType } from './player.type.enum';
 import { PlayerPosition } from './player.position.enum';
 import { type } from 'os';
+import { Image } from '../images/image.entity';
 
 @Entity()
 export class Player extends BaseEntity {
@@ -20,7 +22,7 @@ export class Player extends BaseEntity {
 	@Column()
 	lastName: string;
 
-	@Column('date')
+	@Column('date', { nullable: true })
 	dateOfBirth: Date;
 
 	@Column()
@@ -29,6 +31,7 @@ export class Player extends BaseEntity {
 	@Column()
 	position: PlayerPosition;
 
-	@Column({ nullable: true })
+	@OneToOne(type => Image, { eager: true })
+	@JoinColumn()
 	thumbnailImageId: number;
 }

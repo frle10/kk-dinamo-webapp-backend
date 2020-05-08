@@ -7,13 +7,12 @@ import { CreateDiscountDto } from './dto/create-discount.dto';
 
 @Injectable()
 export class DiscountsService {
+	constructor(
+		@InjectRepository(DiscountRepository)
+		private discountRepository: DiscountRepository,
+	) {}
 
-    constructor(
-        @InjectRepository(DiscountRepository)
-        private discountRepository: DiscountRepository,
-    ) {}
-
-    getDiscounts(): Promise<Discount[]> {
+	getDiscounts(): Promise<Discount[]> {
 		return this.discountRepository.getDiscounts();
 	}
 
@@ -21,7 +20,7 @@ export class DiscountsService {
 		return this.discountRepository.findOne(id);
 	}
 
-    addDiscount(createDiscountDto: CreateDiscountDto): Promise<Discount> {
+	addDiscount(createDiscountDto: CreateDiscountDto): Promise<Discount> {
 		return this.discountRepository.addDiscount(createDiscountDto);
 	}
 
@@ -33,9 +32,11 @@ export class DiscountsService {
 		}
 	}
 
-	async updateDiscount(id: number, updateDiscountDto: UpdateDiscountDto): Promise<Discount> {
+	async updateDiscount(
+		id: number,
+		updateDiscountDto: UpdateDiscountDto,
+	): Promise<Discount> {
 		const discount = await this.getDiscountById(id);
-        return this.discountRepository.updateDiscount(discount, updateDiscountDto);
+		return this.discountRepository.updateDiscount(discount, updateDiscountDto);
 	}
-
 }

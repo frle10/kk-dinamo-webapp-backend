@@ -1,6 +1,6 @@
-import { 
-    Controller,
-    Get,
+import {
+	Controller,
+	Get,
 	Post,
 	Patch,
 	Delete,
@@ -13,13 +13,12 @@ import {
 } from '@nestjs/common';
 import { DiscountsService } from './discounts.service';
 import { Discount } from './discount.entity';
-import { UpdateDiscountDto } from './dto/update-discount.dto'; 
+import { UpdateDiscountDto } from './dto/update-discount.dto';
 import { CreateDiscountDto } from './dto/create-discount.dto';
 
 @Controller('discounts')
 export class DiscountsController {
-
-    constructor(private discountService: DiscountsService) {}
+	constructor(private discountService: DiscountsService) {}
 
 	@Get()
 	getDiscounts(): Promise<Discount[]> {
@@ -34,13 +33,14 @@ export class DiscountsController {
 	@Post()
 	@UsePipes(ValidationPipe)
 	addDiscount(@Body() createDiscountDto: CreateDiscountDto): Promise<Discount> {
-		
 		if (createDiscountDto.dateEnd < createDiscountDto.dateStart) {
-			throw new BadRequestException('EndDate cannot be lesser than StartDate');
+			throw new BadRequestException('EndDate cannot be less than StartDate.');
 		}
 
 		if (createDiscountDto.percentage < 0 || createDiscountDto.percentage > 1) {
-			throw new BadRequestException('Percentage cannot be lesser than 0 or greater than 1');
+			throw new BadRequestException(
+				'Percentage cannot be less than 0 or greater than 1.',
+			);
 		}
 
 		return this.discountService.addDiscount(createDiscountDto);
@@ -54,12 +54,11 @@ export class DiscountsController {
 	@Patch('/:id')
 	updateDiscount(
 		@Param('id', ParseIntPipe) id: number,
-        @Body() updateDiscountDto: UpdateDiscountDto,
+		@Body() updateDiscountDto: UpdateDiscountDto,
 	): Promise<Discount> {
 		if (updateDiscountDto.dateEnd < updateDiscountDto.dateStart) {
-			throw new BadRequestException('EndDate cannot be lesser than StartDate');
+			throw new BadRequestException('EndDate cannot be less than StartDate');
 		}
 		return this.discountService.updateDiscount(id, updateDiscountDto);
 	}
-
 }

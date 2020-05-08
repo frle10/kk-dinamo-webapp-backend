@@ -1,5 +1,11 @@
 import { ArticleType } from '../article.type.enum';
-import { IsNotEmpty, IsString, IsIn, IsDecimal, IsNumber } from 'class-validator';
+import {
+	IsNotEmpty,
+	IsString,
+	IsIn,
+	IsDecimal,
+	IsNumber,
+} from 'class-validator';
 
 export class ArticleDto {
 	@IsNotEmpty()

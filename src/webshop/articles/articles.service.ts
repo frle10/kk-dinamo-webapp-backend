@@ -7,13 +7,12 @@ import { GetArticlesFilterDto } from './dto/get-articles-filter.dto';
 
 @Injectable()
 export class ArticlesService {
+	constructor(
+		@InjectRepository(ArticleRepository)
+		private articleRepository: ArticleRepository,
+	) {}
 
-    constructor(
-        @InjectRepository(ArticleRepository)
-        private articleRepository: ArticleRepository,
-    ) {}
-
-    getArticles(articleFilterDto: GetArticlesFilterDto): Promise<Article[]> {
+	getArticles(articleFilterDto: GetArticlesFilterDto): Promise<Article[]> {
 		return this.articleRepository.getArticles(articleFilterDto);
 	}
 
@@ -21,7 +20,7 @@ export class ArticlesService {
 		return this.articleRepository.findOne(id);
 	}
 
-    addArticle(articleDto: ArticleDto): Promise<Article> {
+	addArticle(articleDto: ArticleDto): Promise<Article> {
 		return this.articleRepository.addArticle(articleDto);
 	}
 
@@ -33,9 +32,11 @@ export class ArticlesService {
 		}
 	}
 
-	async updateArticle(id: number, updateArticleDto: ArticleDto): Promise<Article> {
+	async updateArticle(
+		id: number,
+		updateArticleDto: ArticleDto,
+	): Promise<Article> {
 		const article = await this.getArticleById(id);
-        return this.articleRepository.updateArticle(article, updateArticleDto);
+		return this.articleRepository.updateArticle(article, updateArticleDto);
 	}
-
 }

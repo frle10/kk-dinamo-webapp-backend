@@ -16,10 +16,12 @@ import { Image } from './image.entity';
 @Controller('images')
 export class ImagesController {
 	constructor(private imagesService: ImagesService) {}
+
 	@Get()
 	re() {
 		return 'adsas';
 	}
+
 	@Post('/uploadPlayerThumbnail')
 	@UseInterceptors(
 		FileInterceptor('thumbnail', {

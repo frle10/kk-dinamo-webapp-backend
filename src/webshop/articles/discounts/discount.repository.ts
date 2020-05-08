@@ -1,4 +1,4 @@
-import { Repository, EntityRepository } from "typeorm";
+import { Repository, EntityRepository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { Discount } from './discount.entity';
 import { UpdateDiscountDto } from './dto/update-discount.dto';
@@ -8,7 +8,6 @@ import { ArticleDto } from '../dto/article.dto';
 
 @EntityRepository(Discount)
 export class DiscountRepository extends Repository<Discount> {
-
 	constructor(private articleService: ArticlesService) {
 		super();
 	}
@@ -22,14 +21,14 @@ export class DiscountRepository extends Repository<Discount> {
 
 	async addDiscount(createDiscountDto: CreateDiscountDto): Promise<Discount> {
 		const discount = new Discount();
-		discount.dateCreated = new Date((new Date()).toISOString());
+		discount.dateCreated = new Date(new Date().toISOString());
 
 		const articleIDs = createDiscountDto.articleIDs;
 		// console.log(articleIDs);
 
 		// pa jesam li ja lud lol, kaze da je array brojeva, i onda tu ispod console.log ispisuje char po char: [ pa 1 pa , pa 2 pa , ...
 		// help frle
-		let count : number;
+		let count: number;
 		count = 0;
 		for (const articleID of articleIDs) {
 			console.log(articleID, count);
@@ -46,7 +45,7 @@ export class DiscountRepository extends Repository<Discount> {
 				updateArticleDto.price = article.price;
 				updateArticleDto.images = article.images;
 
-				this.articleService.updateArticle(articleID, updateArticleDto)
+				this.articleService.updateArticle(articleID, updateArticleDto);
 			});
 		});
 
@@ -61,7 +60,10 @@ export class DiscountRepository extends Repository<Discount> {
 		return discount;
 	}
 
-	async updateDiscount(discount: Discount, updateDiscountDto): Promise<Discount> {
+	async updateDiscount(
+		discount: Discount,
+		updateDiscountDto,
+	): Promise<Discount> {
 		if (!discount) {
 			throw new NotFoundException('Specified discount does not exist.');
 		}
@@ -71,16 +73,14 @@ export class DiscountRepository extends Repository<Discount> {
 		return discount;
 	}
 
-	private setDiscountProperties(discount: Discount, updateDiscountDto: UpdateDiscountDto) {
-		const {
-            percentage,
-            dateStart,
-            dateEnd
-		} = updateDiscountDto;
+	private setDiscountProperties(
+		discount: Discount,
+		updateDiscountDto: UpdateDiscountDto,
+	) {
+		const { percentage, dateStart, dateEnd } = updateDiscountDto;
 
-        discount.percentage = percentage;
-        discount.dateStart = dateStart;
-        discount.dateEnd = dateEnd;
+		discount.percentage = percentage;
+		discount.dateStart = dateStart;
+		discount.dateEnd = dateEnd;
 	}
-
 }
