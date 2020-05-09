@@ -1,4 +1,11 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+	Entity,
+	BaseEntity,
+	PrimaryGeneratedColumn,
+	Column,
+	OneToMany,
+} from 'typeorm';
+import { Article } from '../article.entity';
 
 @Entity()
 export class Discount extends BaseEntity {
@@ -16,4 +23,10 @@ export class Discount extends BaseEntity {
 
 	@Column('date')
 	dateEnd: Date;
+
+	@OneToMany(
+		() => Article,
+		article => article.discount,
+	)
+	articles: Article[];
 }

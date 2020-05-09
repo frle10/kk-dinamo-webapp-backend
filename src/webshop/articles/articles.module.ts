@@ -9,7 +9,6 @@ import { DiscountsService } from './discounts/discounts.service';
 
 @Module({
 	imports: [TypeOrmModule.forFeature([ArticleRepository, DiscountRepository])],
-	exports: [ArticlesService],
 	controllers: [ArticlesController, DiscountsController],
 	providers: [ArticlesService, DiscountsService],
 })

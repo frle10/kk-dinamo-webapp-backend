@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 import { PlayerType } from './player.type.enum';
 import { PlayerPosition } from './player.position.enum';
-import { type } from 'os';
 import { Image } from '../images/image.entity';
 
 @Entity()
@@ -31,7 +30,7 @@ export class Player extends BaseEntity {
 	@Column()
 	position: PlayerPosition;
 
-	@OneToOne(type => Image, { eager: true })
+	@OneToOne(() => Image, { eager: true })
 	@JoinColumn()
 	thumbnailImageId: number;
 }

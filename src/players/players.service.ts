@@ -40,7 +40,7 @@ export class PlayersService {
 		const player = await this.getPlayerById(id);
 
 		if (!player) {
-			throw new NotFoundException('Specified player does not exist.');
+			throw new NotFoundException('The specified player does not exist.');
 		}
 
 		return this.playerRepository.updatePlayer(player, updatePlayerDto);

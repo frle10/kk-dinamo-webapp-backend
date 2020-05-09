@@ -9,7 +9,6 @@ import {
 	ParseIntPipe,
 	Param,
 	Body,
-	BadRequestException,
 } from '@nestjs/common';
 import { DiscountsService } from './discounts.service';
 import { Discount } from './discount.entity';
@@ -33,16 +32,6 @@ export class DiscountsController {
 	@Post()
 	@UsePipes(ValidationPipe)
 	addDiscount(@Body() createDiscountDto: CreateDiscountDto): Promise<Discount> {
-		if (createDiscountDto.dateEnd < createDiscountDto.dateStart) {
-			throw new BadRequestException('EndDate cannot be less than StartDate.');
-		}
-
-		if (createDiscountDto.percentage < 0 || createDiscountDto.percentage > 1) {
-			throw new BadRequestException(
-				'Percentage cannot be less than 0 or greater than 1.',
-			);
-		}
-
 		return this.discountService.addDiscount(createDiscountDto);
 	}
 
@@ -56,9 +45,6 @@ export class DiscountsController {
 		@Param('id', ParseIntPipe) id: number,
 		@Body() updateDiscountDto: UpdateDiscountDto,
 	): Promise<Discount> {
-		if (updateDiscountDto.dateEnd < updateDiscountDto.dateStart) {
-			throw new BadRequestException('EndDate cannot be less than StartDate');
-		}
 		return this.discountService.updateDiscount(id, updateDiscountDto);
 	}
 }

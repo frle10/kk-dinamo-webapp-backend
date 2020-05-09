@@ -1,11 +1,5 @@
 import { ArticleType } from '../article.type.enum';
-import {
-	IsNotEmpty,
-	IsString,
-	IsIn,
-	IsDecimal,
-	IsNumber,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsIn, IsDecimal } from 'class-validator';
 
 export class ArticleDto {
 	@IsNotEmpty()
@@ -24,7 +18,6 @@ export class ArticleDto {
 	@IsDecimal()
 	price: number;
 
-	// @IsNotEmpty()
-	@IsNumber({}, { each: true })
+	@IsNotEmpty()
 	images: Array<number>;
 }

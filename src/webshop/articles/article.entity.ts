@@ -1,9 +1,15 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import {
+	Entity,
+	BaseEntity,
+	PrimaryGeneratedColumn,
+	Column,
+	ManyToOne,
+} from 'typeorm';
 import { ArticleType } from './article.type.enum';
+import { Discount } from './discounts/discount.entity';
 
 @Entity()
 export class Article extends BaseEntity {
-	
 	@PrimaryGeneratedColumn()
 	id: number;
 
@@ -25,20 +31,13 @@ export class Article extends BaseEntity {
 	@Column('date')
 	dateLastModified: Date;
 
-	/*
-	@OneToMany(type => Image {
-		cascade: true,
-	})
-	@JoinColumn()
-	*/
-	@Column("int", { array: true, nullable: true })
+	@Column('int', { array: true, nullable: true })
 	images: Array<number>;
 
-	/*
-	@ManyToOne(type => Discount)
-	@JoinColumn()
-	*/
-	@Column({ nullable: true })
-	discountID: number;
-
+	@ManyToOne(
+		() => Discount,
+		discount => discount.articles,
+		{ eager: true },
+	)
+	discount: Discount;
 }

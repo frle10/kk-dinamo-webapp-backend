@@ -6,19 +6,20 @@ import { GetArticlesFilterDto } from './dto/get-articles-filter.dto';
 
 @EntityRepository(Article)
 export class ArticleRepository extends Repository<Article> {
-
-	async getArticles(articleFilterDto: GetArticlesFilterDto): Promise<Article[]> {
+	async getArticles(
+		articleFilterDto: GetArticlesFilterDto,
+	): Promise<Article[]> {
 		const { name, description, type, price } = articleFilterDto;
 		const query = this.createQueryBuilder('article');
 
 		if (name) {
 			query.andWhere('article.name = :name', { name });
 		}
-		
+
 		if (description) {
 			query.andWhere('article.description = :description', { description });
 		}
-		
+
 		if (type) {
 			query.andWhere('article.type = :type', { type });
 		}
@@ -33,8 +34,8 @@ export class ArticleRepository extends Repository<Article> {
 
 	async addArticle(articleDto: ArticleDto): Promise<Article> {
 		const article = new Article();
-		
-		article.dateCreated = new Date((new Date()).toISOString());
+
+		article.dateCreated = new Date(new Date().toISOString());
 		this.setArticleProperties(article, articleDto);
 
 		await article.save();
@@ -52,20 +53,13 @@ export class ArticleRepository extends Repository<Article> {
 	}
 
 	private setArticleProperties(article: Article, articleDto: ArticleDto) {
-		const {
-			name,
-			description,
-			type,
-			price,
-			images,
-		} = articleDto;
+		const { name, description, type, price, images } = articleDto;
 
 		article.name = name;
 		article.description = description;
 		article.type = type;
 		article.price = price;
 		article.images = images;
-		article.dateLastModified = new Date((new Date()).toISOString());
+		article.dateLastModified = new Date(new Date().toISOString());
 	}
-
 }

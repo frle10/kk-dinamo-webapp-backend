@@ -37,6 +37,11 @@ export class DiscountsService {
 		updateDiscountDto: UpdateDiscountDto,
 	): Promise<Discount> {
 		const discount = await this.getDiscountById(id);
+
+		if (!discount) {
+			throw new NotFoundException('The specified discount does not exist.');
+		}
+
 		return this.discountRepository.updateDiscount(discount, updateDiscountDto);
 	}
 }

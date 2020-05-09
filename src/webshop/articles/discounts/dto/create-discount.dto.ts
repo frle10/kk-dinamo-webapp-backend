@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsDecimal, IsISO8601, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsDecimal, IsISO8601 } from 'class-validator';
 
 export class CreateDiscountDto {
 	@IsNotEmpty()
@@ -14,6 +14,5 @@ export class CreateDiscountDto {
 	dateEnd: Date;
 
 	@IsNotEmpty()
-	@IsNumber({}, { each: true })
-	articleIDs: Array<number>;
+	articleIds: string;
 }

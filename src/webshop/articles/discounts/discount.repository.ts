@@ -1,20 +1,22 @@
+import { BadRequestException } from '@nestjs/common';
 import { Repository, EntityRepository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Discount } from './discount.entity';
 import { UpdateDiscountDto } from './dto/update-discount.dto';
 import { CreateDiscountDto } from './dto/create-discount.dto';
-import { ArticlesService } from '../articles.service';
-import { ArticleDto } from '../dto/article.dto';
+import { ArticleRepository } from '../article.repository';
 
 @EntityRepository(Discount)
 export class DiscountRepository extends Repository<Discount> {
-	constructor(private articleService: ArticlesService) {
+	constructor(
+		@InjectRepository(ArticleRepository)
+		private articleRepository: ArticleRepository,
+	) {
 		super();
 	}
 
 	async getDiscounts() {
 		const query = this.createQueryBuilder('discount');
-
 		const discounts = await query.getMany();
 		return discounts;
 	}
@@ -23,52 +25,21 @@ export class DiscountRepository extends Repository<Discount> {
 		const discount = new Discount();
 		discount.dateCreated = new Date(new Date().toISOString());
 
-		const articleIDs = createDiscountDto.articleIDs;
-		// console.log(articleIDs);
-
-		// pa jesam li ja lud lol, kaze da je array brojeva, i onda tu ispod console.log ispisuje char po char: [ pa 1 pa , pa 2 pa , ...
-		// help frle
-		let count: number;
-		count = 0;
-		for (const articleID of articleIDs) {
-			console.log(articleID, count);
-			count++;
-		}
-
-		articleIDs.forEach(function(articleID) {
-			console.log(`ID: ${articleID}`);
-			this.articleService.getArticleById(articleID).then(article => {
-				const updateArticleDto = new ArticleDto();
-				updateArticleDto.name = article.name;
-				updateArticleDto.description = article.description;
-				updateArticleDto.type = article.type;
-				updateArticleDto.price = article.price;
-				updateArticleDto.images = article.images;
-
-				this.articleService.updateArticle(articleID, updateArticleDto);
-			});
-		});
-
+		const { percentage, dateStart, dateEnd, articleIds } = createDiscountDto;
 		const updateDiscountDto = new UpdateDiscountDto();
-		updateDiscountDto.percentage = createDiscountDto.percentage;
-		updateDiscountDto.dateStart = createDiscountDto.dateStart;
-		updateDiscountDto.dateEnd = createDiscountDto.dateEnd;
+		updateDiscountDto.percentage = percentage;
+		updateDiscountDto.dateStart = dateStart;
+		updateDiscountDto.dateEnd = dateEnd;
+		updateDiscountDto.articleIds = articleIds;
 
-		this.setDiscountProperties(discount, updateDiscountDto);
-
-		await discount.save();
-		return discount;
+		return this.updateDiscount(discount, updateDiscountDto);
 	}
 
 	async updateDiscount(
 		discount: Discount,
-		updateDiscountDto,
+		updateDiscountDto: UpdateDiscountDto,
 	): Promise<Discount> {
-		if (!discount) {
-			throw new NotFoundException('Specified discount does not exist.');
-		}
 		this.setDiscountProperties(discount, updateDiscountDto);
-
 		await discount.save();
 		return discount;
 	}
@@ -76,11 +47,38 @@ export class DiscountRepository extends Repository<Discount> {
 	private setDiscountProperties(
 		discount: Discount,
 		updateDiscountDto: UpdateDiscountDto,
-	) {
-		const { percentage, dateStart, dateEnd } = updateDiscountDto;
+	): void {
+		const { percentage, dateStart, dateEnd, articleIds } = updateDiscountDto;
 
-		discount.percentage = percentage;
-		discount.dateStart = dateStart;
-		discount.dateEnd = dateEnd;
+		if (percentage) discount.percentage = percentage;
+		if (dateStart) discount.dateStart = dateStart;
+		if (dateEnd) discount.dateEnd = dateEnd;
+
+		if (articleIds) {
+			const articleIdNumbers = this.parseIds(articleIds);
+			articleIdNumbers.forEach(async articleId => {
+				const article = await this.articleRepository
+					.findOne(articleId)
+					.catch(() => undefined);
+				if (article) discount.articles.push(article);
+			});
+		}
+	}
+
+	private parseIds(ids: string): number[] {
+		const idTokens: string[] = ids.trim().split(',');
+		const idNumbers: number[] = [];
+		idTokens.forEach(s => {
+			const id = parseInt(s);
+			if (isNaN(id) || id < 1) {
+				throw new BadRequestException(
+					'Article IDs must be whole numbers greater than 0.',
+				);
+			}
+
+			idNumbers.push(id);
+		});
+
+		return idNumbers;
 	}
 }
