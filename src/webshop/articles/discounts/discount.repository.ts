@@ -50,9 +50,23 @@ export class DiscountRepository extends Repository<Discount> {
 	): void {
 		const { percentage, dateStart, dateEnd, articleIds } = updateDiscountDto;
 
-		if (percentage) discount.percentage = percentage;
-		if (dateStart) discount.dateStart = dateStart;
-		if (dateEnd) discount.dateEnd = dateEnd;
+		if (percentage) {
+			if (percentage < 0 || percentage > 1) {
+				throw new BadRequestException('Percentage has to be between 0 and 1.');
+			}
+
+			discount.percentage = percentage;
+		}
+		if (dateStart && dateEnd) {
+			if (dateStart >= dateEnd) {
+				throw new BadRequestException(
+					'Discount start date cannot be greater than end date.',
+				);
+			}
+
+			discount.dateStart = dateStart;
+			discount.dateEnd = dateEnd;
+		}
 
 		if (articleIds) {
 			const articleIdNumbers = this.parseIds(articleIds);
