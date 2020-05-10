@@ -1,8 +1,9 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import { Article } from './article.entity';
-import { ArticleDto } from './dto/article.dto';
+import { UpdateArticleDto } from './dto/update-article.dto';
 import { GetArticlesFilterDto } from './dto/get-articles-filter.dto';
+import { CreateArticleDto } from './dto/create-article.dto';
 
 @EntityRepository(Article)
 export class ArticleRepository extends Repository<Article> {
@@ -32,11 +33,18 @@ export class ArticleRepository extends Repository<Article> {
 		return articles;
 	}
 
-	async addArticle(articleDto: ArticleDto): Promise<Article> {
+	async addArticle(createArticleDto: CreateArticleDto): Promise<Article> {
 		const article = new Article();
 		article.dateCreated = new Date(new Date().toISOString());
 
-		this.setArticleProperties(article, articleDto);
+		const { name, description, type, price, images } = createArticleDto;
+		const updateArticleDto = new UpdateArticleDto();
+		updateArticleDto.name = name;
+		updateArticleDto.description = description;
+		updateArticleDto.type = type;
+		updateArticleDto.price = price;
+		updateArticleDto.images = images;
+		this.setArticleProperties(article, updateArticleDto);
 
 		await article.save();
 		return article;
@@ -44,7 +52,7 @@ export class ArticleRepository extends Repository<Article> {
 
 	async updateArticle(
 		article: Article,
-		updateArticleDto: ArticleDto,
+		updateArticleDto: UpdateArticleDto,
 	): Promise<Article> {
 		this.setArticleProperties(article, updateArticleDto);
 
@@ -52,8 +60,11 @@ export class ArticleRepository extends Repository<Article> {
 		return article;
 	}
 
-	private setArticleProperties(article: Article, articleDto: ArticleDto) {
-		const { name, description, type, price, images } = articleDto;
+	private setArticleProperties(
+		article: Article,
+		updateArticleDto: UpdateArticleDto,
+	) {
+		const { name, description, type, price, images } = updateArticleDto;
 
 		if (name) article.name = name;
 		if (description) article.description = description;
@@ -65,7 +76,7 @@ export class ArticleRepository extends Repository<Article> {
 
 			article.price = price;
 		}
-		if (images) article.images = images;
+
 		article.dateLastModified = new Date(new Date().toISOString());
 	}
 }

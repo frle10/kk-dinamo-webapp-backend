@@ -1,7 +1,7 @@
 import { ArticleType } from '../article.type.enum';
 import { IsNotEmpty, IsString, IsIn, IsDecimal } from 'class-validator';
 
-export class ArticleDto {
+export class CreateArticleDto {
 	@IsNotEmpty()
 	@IsString()
 	name: string;

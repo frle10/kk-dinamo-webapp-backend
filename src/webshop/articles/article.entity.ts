@@ -4,9 +4,11 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	ManyToOne,
+	OneToMany,
 } from 'typeorm';
 import { ArticleType } from './article.type.enum';
 import { Discount } from './discounts/discount.entity';
+import { Image } from '../../images/image.entity';
 
 @Entity()
 export class Article extends BaseEntity {
@@ -31,8 +33,12 @@ export class Article extends BaseEntity {
 	@Column('date')
 	dateLastModified: Date;
 
-	@Column('int', { array: true, nullable: true })
-	images: Array<number>;
+	@OneToMany(
+		() => Image,
+		image => image.article,
+		{ eager: true },
+	)
+	images: Image[];
 
 	@ManyToOne(
 		() => Discount,

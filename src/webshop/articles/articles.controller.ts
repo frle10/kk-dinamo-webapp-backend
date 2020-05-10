@@ -13,8 +13,9 @@ import {
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { Article } from './article.entity';
-import { ArticleDto } from './dto/article.dto';
+import { UpdateArticleDto } from './dto/update-article.dto';
 import { GetArticlesFilterDto } from './dto/get-articles-filter.dto';
+import { CreateArticleDto } from './dto/create-article.dto';
 
 @Controller('articles')
 export class ArticlesController {
@@ -34,7 +35,7 @@ export class ArticlesController {
 
 	@Post()
 	@UsePipes(ValidationPipe)
-	addArticle(@Body() articleDto: ArticleDto): Promise<Article> {
+	addArticle(@Body() articleDto: CreateArticleDto): Promise<Article> {
 		return this.articleService.addArticle(articleDto);
 	}
 
@@ -46,7 +47,7 @@ export class ArticlesController {
 	@Patch('/:id')
 	updateArticle(
 		@Param('id', ParseIntPipe) id: number,
-		@Body() updateArticleDto: ArticleDto,
+		@Body() updateArticleDto: UpdateArticleDto,
 	): Promise<Article> {
 		return this.articleService.updateArticle(id, updateArticleDto);
 	}
