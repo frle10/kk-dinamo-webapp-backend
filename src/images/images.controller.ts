@@ -24,7 +24,7 @@ export class ImagesController {
 			configureImageUpload('./static/images/player-thumbnails'),
 		),
 	)
-	async uploadPlayerThumbnail(
+	uploadPlayerThumbnail(
 		@UploadedFile() thumbnail: Express.Multer.File,
 	): Promise<Image> {
 		return this.imagesService.createImage(thumbnail);
@@ -38,7 +38,7 @@ export class ImagesController {
 		),
 	)
 	@Post('/uploadBulletinImages')
-	async uploadBulletinImages(
+	uploadBulletinImages(
 		@UploadedFiles() images: Express.Multer.File[],
 	): Promise<Image[]> {
 		return this.imagesService.createImages(images);
@@ -52,7 +52,7 @@ export class ImagesController {
 		),
 	)
 	@Post('/uploadArticleImages')
-	async uploadArticleImages(
+	uploadArticleImages(
 		@UploadedFiles() images: Express.Multer.File[],
 	): Promise<Image[]> {
 		return this.imagesService.createImages(images);

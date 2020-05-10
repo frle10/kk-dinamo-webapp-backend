@@ -13,11 +13,13 @@ export class ImageRepository extends Repository<Image> {
 	}
 
 	async createImages(images: Express.Multer.File[]): Promise<Image[]> {
-		const imageEntities = [];
+		const imageEntities: Image[] = [];
 
-		images.map(async image => {
-			imageEntities.push(await this.createImage(image));
-		});
+		await Promise.all(
+			images.map(async image => {
+				imageEntities.push(await this.createImage(image));
+			}),
+		);
 
 		return imageEntities;
 	}
