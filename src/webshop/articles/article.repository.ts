@@ -1,5 +1,5 @@
 import { Repository, EntityRepository } from 'typeorm';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { Article } from './article.entity';
 import { ArticleDto } from './dto/article.dto';
 import { GetArticlesFilterDto } from './dto/get-articles-filter.dto';
@@ -34,18 +34,18 @@ export class ArticleRepository extends Repository<Article> {
 
 	async addArticle(articleDto: ArticleDto): Promise<Article> {
 		const article = new Article();
-
 		article.dateCreated = new Date(new Date().toISOString());
+
 		this.setArticleProperties(article, articleDto);
 
 		await article.save();
 		return article;
 	}
 
-	async updateArticle(article: Article, updateArticleDto): Promise<Article> {
-		if (!article) {
-			throw new NotFoundException('Specified article does not exist.');
-		}
+	async updateArticle(
+		article: Article,
+		updateArticleDto: ArticleDto,
+	): Promise<Article> {
 		this.setArticleProperties(article, updateArticleDto);
 
 		await article.save();
@@ -55,11 +55,17 @@ export class ArticleRepository extends Repository<Article> {
 	private setArticleProperties(article: Article, articleDto: ArticleDto) {
 		const { name, description, type, price, images } = articleDto;
 
-		article.name = name;
-		article.description = description;
-		article.type = type;
-		article.price = price;
-		article.images = images;
+		if (name) article.name = name;
+		if (description) article.description = description;
+		if (type) article.type = type;
+		if (price) {
+			if (price < 0) {
+				throw new BadRequestException('Article price cannot be less than 0.');
+			}
+
+			article.price = price;
+		}
+		if (images) article.images = images;
 		article.dateLastModified = new Date(new Date().toISOString());
 	}
 }

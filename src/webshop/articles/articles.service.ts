@@ -37,6 +37,11 @@ export class ArticlesService {
 		updateArticleDto: ArticleDto,
 	): Promise<Article> {
 		const article = await this.getArticleById(id);
+
+		if (!article) {
+			throw new NotFoundException('Specified article does not exist.');
+		}
+
 		return this.articleRepository.updateArticle(article, updateArticleDto);
 	}
 }
