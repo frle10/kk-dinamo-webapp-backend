@@ -19,5 +19,5 @@ export class CreateArticleDto {
 	price: number;
 
 	@IsNotEmpty()
-	images: Array<number>;
+	imageIds: string;
 }

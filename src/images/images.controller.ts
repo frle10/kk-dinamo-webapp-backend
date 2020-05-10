@@ -11,7 +11,7 @@ import { Image } from './image.entity';
 import {
 	configureImageUpload,
 	IMAGE_UPLOAD_LIMIT,
-} from '../utilities/upload-utility';
+} from './utilities/upload-utility';
 
 @Controller('images')
 export class ImagesController {

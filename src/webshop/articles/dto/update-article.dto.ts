@@ -30,5 +30,5 @@ export class UpdateArticleDto {
 
 	@IsOptional()
 	@IsNotEmpty()
-	images: Array<number>;
+	imageIds: string;
 }

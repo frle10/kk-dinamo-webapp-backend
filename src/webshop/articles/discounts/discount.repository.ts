@@ -5,7 +5,8 @@ import { Discount } from './discount.entity';
 import { UpdateDiscountDto } from './dto/update-discount.dto';
 import { CreateDiscountDto } from './dto/create-discount.dto';
 import { ArticleRepository } from '../article.repository';
-import { parseIds } from 'src/utilities/id-utility';
+import { updateOneToManySide } from '../../../utilities/id-utility';
+import { Article } from '../article.entity';
 
 @EntityRepository(Discount)
 export class DiscountRepository extends Repository<Discount> {
@@ -70,13 +71,11 @@ export class DiscountRepository extends Repository<Discount> {
 		}
 
 		if (articleIds) {
-			const articleIdNumbers = parseIds(articleIds);
-			articleIdNumbers.forEach(async articleId => {
-				const article = await this.articleRepository
-					.findOne(articleId)
-					.catch(() => undefined);
-				if (article) discount.articles.push(article);
-			});
+			updateOneToManySide<Article>(
+				articleIds,
+				this.articleRepository,
+				discount.articles,
+			);
 		}
 	}
 }

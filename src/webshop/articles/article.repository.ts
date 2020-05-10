@@ -4,9 +4,19 @@ import { Article } from './article.entity';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { GetArticlesFilterDto } from './dto/get-articles-filter.dto';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ImageRepository } from '../../images/image.repository';
+import { updateOneToManySide } from '../../utilities/id-utility';
+import { Image } from '../../images/image.entity';
 
 @EntityRepository(Article)
 export class ArticleRepository extends Repository<Article> {
+	constructor(
+		@InjectRepository(ImageRepository) private imageRepository: ImageRepository,
+	) {
+		super();
+	}
+
 	async getArticles(
 		articleFilterDto: GetArticlesFilterDto,
 	): Promise<Article[]> {
@@ -37,13 +47,13 @@ export class ArticleRepository extends Repository<Article> {
 		const article = new Article();
 		article.dateCreated = new Date(new Date().toISOString());
 
-		const { name, description, type, price, images } = createArticleDto;
+		const { name, description, type, price, imageIds } = createArticleDto;
 		const updateArticleDto = new UpdateArticleDto();
 		updateArticleDto.name = name;
 		updateArticleDto.description = description;
 		updateArticleDto.type = type;
 		updateArticleDto.price = price;
-		updateArticleDto.images = images;
+		updateArticleDto.imageIds = imageIds;
 		this.setArticleProperties(article, updateArticleDto);
 
 		await article.save();
@@ -64,7 +74,7 @@ export class ArticleRepository extends Repository<Article> {
 		article: Article,
 		updateArticleDto: UpdateArticleDto,
 	) {
-		const { name, description, type, price, images } = updateArticleDto;
+		const { name, description, type, price, imageIds } = updateArticleDto;
 
 		if (name) article.name = name;
 		if (description) article.description = description;
@@ -75,6 +85,14 @@ export class ArticleRepository extends Repository<Article> {
 			}
 
 			article.price = price;
+		}
+
+		if (imageIds) {
+			updateOneToManySide<Image>(
+				imageIds,
+				this.imageRepository,
+				article.images,
+			);
 		}
 
 		article.dateLastModified = new Date(new Date().toISOString());
