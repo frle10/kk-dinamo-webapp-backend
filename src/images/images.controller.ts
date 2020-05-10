@@ -8,7 +8,10 @@ import {
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ImagesService } from './images.service';
 import { Image } from './image.entity';
-import { configureImageUpload, IMAGE_UPLOAD_LIMIT } from '../upload-utility';
+import {
+	configureImageUpload,
+	IMAGE_UPLOAD_LIMIT,
+} from '../utilities/upload-utility';
 
 @Controller('images')
 export class ImagesController {

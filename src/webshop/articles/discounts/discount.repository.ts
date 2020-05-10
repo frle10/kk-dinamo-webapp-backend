@@ -5,6 +5,7 @@ import { Discount } from './discount.entity';
 import { UpdateDiscountDto } from './dto/update-discount.dto';
 import { CreateDiscountDto } from './dto/create-discount.dto';
 import { ArticleRepository } from '../article.repository';
+import { parseIds } from 'src/utilities/id-utility';
 
 @EntityRepository(Discount)
 export class DiscountRepository extends Repository<Discount> {
@@ -69,7 +70,7 @@ export class DiscountRepository extends Repository<Discount> {
 		}
 
 		if (articleIds) {
-			const articleIdNumbers = this.parseIds(articleIds);
+			const articleIdNumbers = parseIds(articleIds);
 			articleIdNumbers.forEach(async articleId => {
 				const article = await this.articleRepository
 					.findOne(articleId)
@@ -77,22 +78,5 @@ export class DiscountRepository extends Repository<Discount> {
 				if (article) discount.articles.push(article);
 			});
 		}
-	}
-
-	private parseIds(ids: string): number[] {
-		const idTokens: string[] = ids.trim().split(',');
-		const idNumbers: number[] = [];
-		idTokens.forEach(s => {
-			const id = parseInt(s);
-			if (isNaN(id) || id < 1) {
-				throw new BadRequestException(
-					'Article IDs must be whole numbers greater than 0.',
-				);
-			}
-
-			idNumbers.push(id);
-		});
-
-		return idNumbers;
 	}
 }

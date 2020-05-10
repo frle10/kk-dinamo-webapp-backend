@@ -6,10 +6,12 @@ import { ForbiddenException } from '@nestjs/common';
 
 export const IMAGE_UPLOAD_LIMIT: number = 10;
 
-export const configureImageUpload: (dest: string) => MulterOptions = dest => {
+export const configureImageUpload: (
+	destination: string,
+) => MulterOptions = destination => {
 	const multerOptions: MulterOptions = {};
 	multerOptions.storage = diskStorage({
-		destination: dest,
+		destination,
 		filename: (_req, file, cb) => {
 			const randomName = uuidv1();
 			return cb(null, `${randomName}${extname(file.originalname)}`);
