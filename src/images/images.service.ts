@@ -9,11 +9,11 @@ export class ImagesService {
 		@InjectRepository(ImageRepository) private imageRepository: ImageRepository,
 	) {}
 
-	async createImage(image: Express.Multer.File): Promise<Image> {
+	createImage(image: Express.Multer.File): Promise<Image> {
 		return this.imageRepository.createImage(image);
 	}
 
-	async createImages(images: Express.Multer.File[]): Promise<Image[]> {
+	createImages(images: Express.Multer.File[]): Promise<Image[]> {
 		return this.imageRepository.createImages(images);
 	}
 }

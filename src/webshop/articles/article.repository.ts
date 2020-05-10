@@ -43,7 +43,7 @@ export class ArticleRepository extends Repository<Article> {
 		return articles;
 	}
 
-	async addArticle(createArticleDto: CreateArticleDto): Promise<Article> {
+	addArticle(createArticleDto: CreateArticleDto): Promise<Article> {
 		const article = new Article();
 		article.dateCreated = new Date(new Date().toISOString());
 
@@ -54,10 +54,8 @@ export class ArticleRepository extends Repository<Article> {
 		updateArticleDto.type = type;
 		updateArticleDto.price = price;
 		updateArticleDto.imageIds = imageIds;
-		this.setArticleProperties(article, updateArticleDto);
 
-		await article.save();
-		return article;
+		return this.updateArticle(article, updateArticleDto);
 	}
 
 	async updateArticle(
@@ -65,7 +63,6 @@ export class ArticleRepository extends Repository<Article> {
 		updateArticleDto: UpdateArticleDto,
 	): Promise<Article> {
 		this.setArticleProperties(article, updateArticleDto);
-
 		await article.save();
 		return article;
 	}

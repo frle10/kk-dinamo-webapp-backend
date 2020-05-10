@@ -22,7 +22,7 @@ export class PlayerRepository extends Repository<Player> {
 		return players;
 	}
 
-	async registerPlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {
+	registerPlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {
 		const {
 			firstName,
 			lastName,
@@ -32,15 +32,14 @@ export class PlayerRepository extends Repository<Player> {
 		} = createPlayerDto;
 
 		const player = new Player();
-		player.firstName = firstName;
-		player.lastName = lastName;
-		player.type = type;
+		const updatePlayerDto = new UpdatePlayerDto();
+		updatePlayerDto.firstName = firstName;
+		updatePlayerDto.lastName = lastName;
+		updatePlayerDto.dateOfBirth = dateOfBirth;
+		updatePlayerDto.type = type;
+		updatePlayerDto.position = position;
 
-		if (dateOfBirth) player.dateOfBirth = dateOfBirth;
-		if (position) player.position = position;
-
-		await player.save();
-		return player;
+		return this.updatePlayer(player, updatePlayerDto);
 	}
 
 	async updatePlayer(
@@ -54,6 +53,7 @@ export class PlayerRepository extends Repository<Player> {
 			type,
 			position,
 		} = updatePlayerDto;
+
 		if (firstName) player.firstName = firstName;
 		if (lastName) player.lastName = lastName;
 		if (dateOfBirth) player.dateOfBirth = dateOfBirth;

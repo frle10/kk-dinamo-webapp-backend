@@ -17,13 +17,13 @@ export class DiscountRepository extends Repository<Discount> {
 		super();
 	}
 
-	async getDiscounts() {
+	async getDiscounts(): Promise<Discount[]> {
 		const query = this.createQueryBuilder('discount');
 		const discounts = await query.getMany();
 		return discounts;
 	}
 
-	async addDiscount(createDiscountDto: CreateDiscountDto): Promise<Discount> {
+	addDiscount(createDiscountDto: CreateDiscountDto): Promise<Discount> {
 		const discount = new Discount();
 		discount.dateCreated = new Date(new Date().toISOString());
 
