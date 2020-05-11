@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { BulletinsModule } from './bulletins/bulletins.module';
-import { WebshopModule } from './webshop/webshop.module';
 import { ImagesModule } from './images/images.module';
 
 @Module({
@@ -13,7 +12,6 @@ import { ImagesModule } from './images/images.module';
 		PlayersModule,
 		BulletinsModule,
 		AuthModule,
-		WebshopModule,
 		ImagesModule,
 	],
 })
