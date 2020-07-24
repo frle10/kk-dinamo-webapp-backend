@@ -26,7 +26,7 @@ export class BulletinRepository extends Repository<Bulletin> {
 	async addBulletin(bulletinDto: BulletinDto): Promise<Bulletin> {
 		const bulletin = new Bulletin();
 		this.setBulletinProperties(bulletin, bulletinDto);
-		bulletin.dateCreated = new Date(new Date().toISOString());
+		bulletin.createdOn = new Date(new Date().toISOString());
 
 		await bulletin.save();
 		return bulletin;
@@ -47,12 +47,11 @@ export class BulletinRepository extends Repository<Bulletin> {
 	}
 
 	private setBulletinProperties(bulletin: Bulletin, bulletinDto: BulletinDto) {
-		const { title, content, type, images } = bulletinDto;
+		const { title, content, type } = bulletinDto;
 
 		bulletin.title = title;
 		bulletin.content = content;
 		bulletin.type = type;
-		bulletin.images = images;
-		bulletin.dateLastModified = new Date(new Date().toISOString());
+		bulletin.lastModifiedOn = new Date(new Date().toISOString());
 	}
 }

@@ -1,12 +1,13 @@
 import {
 	BaseEntity,
-	OneToMany,
 	Entity,
 	Column,
 	PrimaryGeneratedColumn,
+	OneToOne,
+	JoinColumn,
 } from 'typeorm';
 import { BulletinType } from './bulletin.type.enum';
-// import { Image } from '';
+import { ImageContainer } from '../images/image.containers.entity';
 
 @Entity()
 export class Bulletin extends BaseEntity {
@@ -22,18 +23,13 @@ export class Bulletin extends BaseEntity {
 	@Column()
 	type: BulletinType;
 
-	/*
-	@OneToMany(type => Image, {
-		cascade: true,
-	})
+	@Column('date')
+	createdOn: Date;
+
+	@Column('date')
+	lastModifiedOn: Date;
+
+	@OneToOne(() => ImageContainer, { eager: true })
 	@JoinColumn()
-	*/
-	@Column('int', { array: true, nullable: true })
-	images: Array<number>;
-
-	@Column('date')
-	dateCreated: Date;
-
-	@Column('date')
-	dateLastModified: Date;
+	imageContainer: ImageContainer;
 }

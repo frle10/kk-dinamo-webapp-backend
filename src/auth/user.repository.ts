@@ -17,14 +17,14 @@ export class UserRepository extends Repository<User> {
 		user.username = username;
 		user.salt = await bcrypt.genSalt();
 		user.password = await this.hashPassword(password, user.salt);
-		user.role = UserRole.REGISTERED;
-		user.dateCreated = new Date(new Date().toISOString());
+		user.role = UserRole.ADMIN;
+		user.createdOn = new Date(new Date().toISOString());
 
 		try {
 			await user.save();
 		} catch (error) {
 			if (error.code === '23505') {
-				throw new ConflictException('Username already exists');
+				throw new ConflictException('Username already exists.');
 			} else {
 				throw new InternalServerErrorException();
 			}

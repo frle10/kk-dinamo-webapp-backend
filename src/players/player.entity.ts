@@ -27,10 +27,10 @@ export class Player extends BaseEntity {
 	@Column()
 	type: PlayerType;
 
-	@Column()
+	@Column({ nullable: true })
 	position: PlayerPosition;
 
 	@OneToOne(() => Image, { eager: true })
 	@JoinColumn()
-	thumbnailImageId: number;
+	thumbnailImage: Image;
 }
