@@ -5,10 +5,4 @@ export class GetBulletinsFilterDto {
 	@IsOptional()
 	@IsNotEmpty()
 	search: string;
-
-	/*
-	@IsOptional()
-	@IsISO8601({ strict: true })
-	dateCreated: Date;
-	*/
 }

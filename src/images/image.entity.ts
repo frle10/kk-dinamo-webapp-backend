@@ -18,6 +18,9 @@ export class Image extends BaseEntity {
 	@Column()
 	fileName: string;
 
+	@Column()
+	altText: string;
+
 	@ManyToOne(
 		() => Article,
 		article => article.images,
