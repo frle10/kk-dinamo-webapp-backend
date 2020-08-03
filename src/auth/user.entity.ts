@@ -6,8 +6,8 @@ import {
 	Unique,
 } from 'typeorm';
 import { UserRole } from './user.role.enum';
-import * as bcrypt from 'bcrypt';
 import { IsIn } from 'class-validator';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 @Unique(['username'])

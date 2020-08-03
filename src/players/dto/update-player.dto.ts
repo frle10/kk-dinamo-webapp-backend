@@ -2,7 +2,6 @@ import { PlayerType } from '../player.type.enum';
 import { PlayerPosition } from '../player.position.enum';
 import {
 	IsNotEmpty,
-	IsDate,
 	IsString,
 	IsISO8601,
 	IsIn,

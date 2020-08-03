@@ -18,7 +18,7 @@ export class Image extends BaseEntity {
 	@Column()
 	fileName: string;
 
-	@Column()
+	@Column({ nullable: true })
 	altText: string;
 
 	@ManyToOne(
