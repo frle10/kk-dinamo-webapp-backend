@@ -29,7 +29,7 @@ export class Bulletin extends BaseEntity {
 	@Column('date')
 	lastModifiedOn: Date;
 
-	@OneToOne(() => ImageContainer, { eager: true })
+	@OneToOne(() => ImageContainer, { eager: true, cascade: true })
 	@JoinColumn()
 	imageContainer: ImageContainer;
 }

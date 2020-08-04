@@ -3,6 +3,7 @@ import { Repository, EntityRepository } from 'typeorm';
 import { GetBulletinsFilterDto } from './dto/get-bulletins-filter.dto';
 import { Bulletin } from './bulletin.entity';
 import { BulletinDto } from './dto/bulletin.dto';
+import { ImageContainer } from 'src/images/image.containers.entity';
 
 @EntityRepository(Bulletin)
 export class BulletinRepository extends Repository<Bulletin> {
@@ -27,6 +28,7 @@ export class BulletinRepository extends Repository<Bulletin> {
 		const bulletin = new Bulletin();
 		this.setBulletinProperties(bulletin, bulletinDto);
 		bulletin.createdOn = new Date(new Date().toISOString());
+		bulletin.imageContainer = new ImageContainer();
 
 		await bulletin.save();
 		return bulletin;

@@ -3,12 +3,18 @@ import { ImageRepository } from './image.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Image } from './image.entity';
 import { Player } from '../players/player.entity';
+import { Bulletin } from '../bulletins/bulletin.entity';
 
 @Injectable()
 export class ImagesService {
 	constructor(
 		@InjectRepository(ImageRepository) private imageRepository: ImageRepository,
 	) {}
+
+	async getImageById(imageId: number): Promise<Image> {
+		const image: Image = await this.imageRepository.findOne(imageId);
+		return image;
+	}
 
 	async createPlayerThumbnail(
 		image: Express.Multer.File,
@@ -20,7 +26,14 @@ export class ImagesService {
 		return thumbnail;
 	}
 
-	createImages(images: Express.Multer.File[]): Promise<Image[]> {
-		return this.imageRepository.createImages(images);
+	async createBulletinImages(
+		images: Express.Multer.File[],
+		bulletin: Bulletin,
+	): Promise<Image[]> {
+		const bulletinImages: Image[] = await this.imageRepository.createImages(
+			images,
+		);
+		bulletin.imageContainer.images = bulletinImages;
+		return bulletinImages;
 	}
 }

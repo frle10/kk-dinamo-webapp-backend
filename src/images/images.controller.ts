@@ -18,12 +18,15 @@ import {
 import { Response } from 'express';
 import { Player } from '../players/player.entity';
 import { PlayersService } from '../players/players.service';
+import { Bulletin } from '../bulletins/bulletin.entity';
+import { BulletinsService } from '../bulletins/bulletins.service';
 
 @Controller('images')
 export class ImagesController {
 	constructor(
 		private imagesService: ImagesService,
 		private playersService: PlayersService,
+		private bulletinsService: BulletinsService,
 	) {}
 
 	@Post('/uploadPlayerThumbnail/:id')
@@ -48,11 +51,15 @@ export class ImagesController {
 			configureImageUpload('./static/images/bulletin-images'),
 		),
 	)
-	@Post('/uploadBulletinImages')
-	uploadBulletinImages(
+	@Post('/uploadBulletinImages/:id')
+	async uploadBulletinImages(
 		@UploadedFiles() images: Express.Multer.File[],
+		@Param('id') bulletinId: number,
 	): Promise<Image[]> {
-		return this.imagesService.createImages(images);
+		const bulletin: Bulletin = await this.bulletinsService.getBulletinById(
+			bulletinId,
+		);
+		return this.imagesService.createBulletinImages(images, bulletin);
 	}
 
 	// @UseInterceptors(
@@ -69,13 +76,21 @@ export class ImagesController {
 	// 	return this.imagesService.createImages(images);
 	// }
 
-	@Get('/getPlayerThumbnail/:playerId')
+	@Get('/getPlayerThumbnail/:id')
 	async getPlayerThumbnail(
-		@Param('playerId') playerId: number,
+		@Param('id') imageId: number,
 		@Res() res: Response,
 	): Promise<any> {
-		const player: Player = await this.playersService.getPlayerById(playerId);
-		const imageName: string = player.thumbnailImage.fileName;
-		res.sendFile(imageName, { root: 'static/images/player-thumbnails' });
+		const image: Image = await this.imagesService.getImageById(imageId);
+		res.sendFile(image.fileName, { root: 'static/images/player-thumbnails' });
+	}
+
+	@Get('/getBulletinImage/:id')
+	async getBulletinImage(
+		@Param('id') imageId: number,
+		@Res() res: Response,
+	): Promise<any> {
+		const image: Image = await this.imagesService.getImageById(imageId);
+		res.sendFile(image.fileName, { root: 'static/images/bulletin-images' });
 	}
 }
