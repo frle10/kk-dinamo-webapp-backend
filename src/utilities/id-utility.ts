@@ -2,7 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 export const INVALID_ID_ERROR_MESSAGE: string =
-	'Article IDs must be whole numbers greater than 0.';
+	'IDs must be whole numbers greater than 0.';
 
 export const parseIds: (commaSeparatedIds: string) => number[] = (
 	commaSeparatedIds: string,
