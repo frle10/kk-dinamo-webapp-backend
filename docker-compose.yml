@@ -1,11 +1,11 @@
-version: '3'
+version: '3.8'
 services:
   dinamo-database:
     container_name: dinamo-database
-    image: postgres:10-alpine
+    image: postgres:alpine
     restart: always
     ports:
-      - '47385:5432'
+      - '5436:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
