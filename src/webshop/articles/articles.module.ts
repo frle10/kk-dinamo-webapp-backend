@@ -8,8 +8,8 @@ import { DiscountsController } from './discounts/discounts.controller';
 import { DiscountsService } from './discounts/discounts.service';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([ArticleRepository, DiscountRepository])],
-	controllers: [ArticlesController, DiscountsController],
-	providers: [ArticlesService, DiscountsService],
+  imports: [TypeOrmModule.forFeature([ArticleRepository, DiscountRepository])],
+  controllers: [ArticlesController, DiscountsController],
+  providers: [ArticlesService, DiscountsService],
 })
 export class ArticlesModule {}

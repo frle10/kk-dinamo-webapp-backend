@@ -3,21 +3,21 @@ import { BulletinType } from './bulletin.type.enum';
 
 @Entity()
 export class Bulletin extends BaseEntity {
-	@PrimaryGeneratedColumn()
-	id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@Column()
-	title: string;
+  @Column()
+  title: string;
 
-	@Column()
-	content: string;
+  @Column()
+  content: string;
 
-	@Column()
-	type: BulletinType;
+  @Column()
+  type: BulletinType;
 
-	@Column('date')
-	createdOn: Date;
+  @Column('date')
+  createdOn: Date;
 
-	@Column('date')
-	lastModifiedOn: Date;
+  @Column('date')
+  lastModifiedOn: Date;
 }

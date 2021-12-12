@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ImageRepository } from './image.repository';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([ImageRepository])],
-	controllers: [ImagesController],
-	providers: [ImagesService],
+  imports: [TypeOrmModule.forFeature([ImageRepository])],
+  controllers: [ImagesController],
+  providers: [ImagesService],
 })
 export class ImagesModule {}

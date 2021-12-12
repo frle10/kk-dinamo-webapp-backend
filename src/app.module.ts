@@ -8,13 +8,13 @@ import { WebshopModule } from './webshop/webshop.module';
 import { ImagesModule } from './images/images.module';
 
 @Module({
-	imports: [
-		TypeOrmModule.forRoot(typeOrmConfig),
-		PlayersModule,
-		BulletinsModule,
-		AuthModule,
-		WebshopModule,
-		ImagesModule,
-	],
+  imports: [
+    TypeOrmModule.forRoot(typeOrmConfig),
+    PlayersModule,
+    BulletinsModule,
+    AuthModule,
+    WebshopModule,
+    ImagesModule,
+  ],
 })
 export class AppModule {}

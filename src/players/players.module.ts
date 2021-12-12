@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlayerRepository } from './player.repository';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([PlayerRepository])],
-	controllers: [PlayersController],
-	providers: [PlayersService],
+  imports: [TypeOrmModule.forFeature([PlayerRepository])],
+  controllers: [PlayersController],
+  providers: [PlayersService],
 })
 export class PlayersModule {}

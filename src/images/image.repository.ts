@@ -3,24 +3,24 @@ import { Image } from './image.entity';
 
 @EntityRepository(Image)
 export class ImageRepository extends Repository<Image> {
-	async createImage(image: Express.Multer.File): Promise<Image> {
-		const imageEntity = new Image();
-		imageEntity.fileName = image.filename;
-		imageEntity.filePath = image.destination;
+  async createImage(image: Express.Multer.File): Promise<Image> {
+    const imageEntity = new Image();
+    imageEntity.fileName = image.filename;
+    imageEntity.filePath = image.destination;
 
-		await imageEntity.save();
-		return imageEntity;
-	}
+    await imageEntity.save();
+    return imageEntity;
+  }
 
-	async createImages(images: Express.Multer.File[]): Promise<Image[]> {
-		const imageEntities: Image[] = [];
+  async createImages(images: Express.Multer.File[]): Promise<Image[]> {
+    const imageEntities: Image[] = [];
 
-		await Promise.all(
-			images.map(async image => {
-				imageEntities.push(await this.createImage(image));
-			}),
-		);
+    await Promise.all(
+      images.map(async (image) => {
+        imageEntities.push(await this.createImage(image));
+      })
+    );
 
-		return imageEntities;
-	}
+    return imageEntities;
+  }
 }

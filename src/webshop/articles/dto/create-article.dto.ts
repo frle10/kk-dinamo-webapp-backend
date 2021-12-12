@@ -2,22 +2,22 @@ import { ArticleType } from '../article.type.enum';
 import { IsNotEmpty, IsString, IsIn, IsDecimal } from 'class-validator';
 
 export class CreateArticleDto {
-	@IsNotEmpty()
-	@IsString()
-	name: string;
+  @IsNotEmpty()
+  @IsString()
+  name: string;
 
-	@IsNotEmpty()
-	@IsString()
-	description: string;
+  @IsNotEmpty()
+  @IsString()
+  description: string;
 
-	@IsNotEmpty()
-	@IsIn(Object.values(ArticleType))
-	type: ArticleType;
+  @IsNotEmpty()
+  @IsIn(Object.values(ArticleType))
+  type: ArticleType;
 
-	@IsNotEmpty()
-	@IsDecimal()
-	price: number;
+  @IsNotEmpty()
+  @IsDecimal()
+  price: number;
 
-	@IsNotEmpty()
-	imageIds: string;
+  @IsNotEmpty()
+  imageIds: string;
 }

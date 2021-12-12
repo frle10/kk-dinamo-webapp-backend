@@ -1,10 +1,10 @@
 import {
-	BaseEntity,
-	PrimaryGeneratedColumn,
-	Column,
-	OneToOne,
-	Entity,
-	JoinColumn,
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  Entity,
+  JoinColumn,
 } from 'typeorm';
 import { PlayerType } from './player.type.enum';
 import { PlayerPosition } from './player.position.enum';
@@ -12,25 +12,25 @@ import { Image } from '../images/image.entity';
 
 @Entity()
 export class Player extends BaseEntity {
-	@PrimaryGeneratedColumn()
-	id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@Column()
-	firstName: string;
+  @Column()
+  firstName: string;
 
-	@Column()
-	lastName: string;
+  @Column()
+  lastName: string;
 
-	@Column('date', { nullable: true })
-	dateOfBirth: Date;
+  @Column('date', { nullable: true })
+  dateOfBirth: Date;
 
-	@Column()
-	type: PlayerType;
+  @Column()
+  type: PlayerType;
 
-	@Column()
-	position: PlayerPosition;
+  @Column()
+  position: PlayerPosition;
 
-	@OneToOne(() => Image, { eager: true })
-	@JoinColumn()
-	thumbnailImageId: number;
+  @OneToOne(() => Image, { eager: true })
+  @JoinColumn()
+  thumbnailImageId: number;
 }

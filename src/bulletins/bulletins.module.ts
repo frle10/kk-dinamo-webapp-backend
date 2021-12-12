@@ -7,6 +7,6 @@ import { BulletinRepository } from './bulletin.repository';
 @Module({
   imports: [TypeOrmModule.forFeature([BulletinRepository])],
   controllers: [BulletinsController],
-  providers: [BulletinsService]
+  providers: [BulletinsService],
 })
 export class BulletinsModule {}

@@ -7,41 +7,41 @@ import { BulletinDto } from './dto/bulletin.dto';
 
 @Injectable()
 export class BulletinsService {
-	constructor(
-		@InjectRepository(BulletinRepository)
-		private bulletinRepository: BulletinRepository,
-	) {}
+  constructor(
+    @InjectRepository(BulletinRepository)
+    private bulletinRepository: BulletinRepository
+  ) {}
 
-	getBulletins(bulletinFilterDto: GetBulletinsFilterDto): Promise<Bulletin[]> {
-		return this.bulletinRepository.getBulletins(bulletinFilterDto);
-	}
+  getBulletins(bulletinFilterDto: GetBulletinsFilterDto): Promise<Bulletin[]> {
+    return this.bulletinRepository.getBulletins(bulletinFilterDto);
+  }
 
-	getBulletinById(id: number): Promise<Bulletin> {
-		return this.bulletinRepository.findOne(id);
-	}
+  getBulletinById(id: number): Promise<Bulletin> {
+    return this.bulletinRepository.findOne(id);
+  }
 
-	addBulletin(bulletinDto: BulletinDto): Promise<Bulletin> {
-		return this.bulletinRepository.addBulletin(bulletinDto);
-	}
+  addBulletin(bulletinDto: BulletinDto): Promise<Bulletin> {
+    return this.bulletinRepository.addBulletin(bulletinDto);
+  }
 
-	async deleteBulletin(id: number): Promise<void> {
-		const result = await this.bulletinRepository.delete(id);
+  async deleteBulletin(id: number): Promise<void> {
+    const result = await this.bulletinRepository.delete(id);
 
-		if (!result.affected) {
-			throw new NotFoundException(`Bulletin with ID ${id} not found.`);
-		}
-	}
+    if (!result.affected) {
+      throw new NotFoundException(`Bulletin with ID ${id} not found.`);
+    }
+  }
 
-	async updateBulletin(
-		id: number,
-		updateBulletinDto: BulletinDto,
-	): Promise<Bulletin> {
-		const bulletin = await this.getBulletinById(id);
+  async updateBulletin(
+    id: number,
+    updateBulletinDto: BulletinDto
+  ): Promise<Bulletin> {
+    const bulletin = await this.getBulletinById(id);
 
-		if (!bulletin) {
-			throw new NotFoundException('Specified bulletin does not exist.');
-		}
+    if (!bulletin) {
+      throw new NotFoundException('Specified bulletin does not exist.');
+    }
 
-		return this.bulletinRepository.updateBulletin(bulletin, updateBulletinDto);
-	}
+    return this.bulletinRepository.updateBulletin(bulletin, updateBulletinDto);
+  }
 }

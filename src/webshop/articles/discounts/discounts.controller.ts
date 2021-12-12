@@ -1,14 +1,14 @@
 import {
-	Controller,
-	Get,
-	Post,
-	Patch,
-	Delete,
-	UsePipes,
-	ValidationPipe,
-	ParseIntPipe,
-	Param,
-	Body,
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  ParseIntPipe,
+  Param,
+  Body,
 } from '@nestjs/common';
 import { DiscountsService } from './discounts.service';
 import { Discount } from './discount.entity';
@@ -17,34 +17,34 @@ import { CreateDiscountDto } from './dto/create-discount.dto';
 
 @Controller('discounts')
 export class DiscountsController {
-	constructor(private discountService: DiscountsService) {}
+  constructor(private discountService: DiscountsService) {}
 
-	@Get()
-	getDiscounts(): Promise<Discount[]> {
-		return this.discountService.getDiscounts();
-	}
+  @Get()
+  getDiscounts(): Promise<Discount[]> {
+    return this.discountService.getDiscounts();
+  }
 
-	@Get('/:id')
-	getDiscountById(@Param('id', ParseIntPipe) id: number): Promise<Discount> {
-		return this.discountService.getDiscountById(id);
-	}
+  @Get('/:id')
+  getDiscountById(@Param('id', ParseIntPipe) id: number): Promise<Discount> {
+    return this.discountService.getDiscountById(id);
+  }
 
-	@Post()
-	@UsePipes(ValidationPipe)
-	addDiscount(@Body() createDiscountDto: CreateDiscountDto): Promise<Discount> {
-		return this.discountService.addDiscount(createDiscountDto);
-	}
+  @Post()
+  @UsePipes(ValidationPipe)
+  addDiscount(@Body() createDiscountDto: CreateDiscountDto): Promise<Discount> {
+    return this.discountService.addDiscount(createDiscountDto);
+  }
 
-	@Delete('/:id')
-	deleteDiscount(@Param('id', ParseIntPipe) id: number): Promise<void> {
-		return this.discountService.deleteDiscount(id);
-	}
+  @Delete('/:id')
+  deleteDiscount(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.discountService.deleteDiscount(id);
+  }
 
-	@Patch('/:id')
-	updateDiscount(
-		@Param('id', ParseIntPipe) id: number,
-		@Body() updateDiscountDto: UpdateDiscountDto,
-	): Promise<Discount> {
-		return this.discountService.updateDiscount(id, updateDiscountDto);
-	}
+  @Patch('/:id')
+  updateDiscount(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDiscountDto: UpdateDiscountDto
+  ): Promise<Discount> {
+    return this.discountService.updateDiscount(id, updateDiscountDto);
+  }
 }

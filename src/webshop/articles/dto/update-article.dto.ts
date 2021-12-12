@@ -1,34 +1,34 @@
 import { ArticleType } from '../article.type.enum';
 import {
-	IsNotEmpty,
-	IsString,
-	IsIn,
-	IsDecimal,
-	IsOptional,
+  IsNotEmpty,
+  IsString,
+  IsIn,
+  IsDecimal,
+  IsOptional,
 } from 'class-validator';
 
 export class UpdateArticleDto {
-	@IsOptional()
-	@IsNotEmpty()
-	@IsString()
-	name: string;
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  name: string;
 
-	@IsOptional()
-	@IsNotEmpty()
-	@IsString()
-	description: string;
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  description: string;
 
-	@IsOptional()
-	@IsNotEmpty()
-	@IsIn(Object.values(ArticleType))
-	type: ArticleType;
+  @IsOptional()
+  @IsNotEmpty()
+  @IsIn(Object.values(ArticleType))
+  type: ArticleType;
 
-	@IsOptional()
-	@IsNotEmpty()
-	@IsDecimal()
-	price: number;
+  @IsOptional()
+  @IsNotEmpty()
+  @IsDecimal()
+  price: number;
 
-	@IsOptional()
-	@IsNotEmpty()
-	imageIds: string;
+  @IsOptional()
+  @IsNotEmpty()
+  imageIds: string;
 }

@@ -8,41 +8,41 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 
 @Injectable()
 export class ArticlesService {
-	constructor(
-		@InjectRepository(ArticleRepository)
-		private articleRepository: ArticleRepository,
-	) {}
+  constructor(
+    @InjectRepository(ArticleRepository)
+    private articleRepository: ArticleRepository
+  ) {}
 
-	getArticles(articleFilterDto: GetArticlesFilterDto): Promise<Article[]> {
-		return this.articleRepository.getArticles(articleFilterDto);
-	}
+  getArticles(articleFilterDto: GetArticlesFilterDto): Promise<Article[]> {
+    return this.articleRepository.getArticles(articleFilterDto);
+  }
 
-	getArticleById(id: number): Promise<Article> {
-		return this.articleRepository.findOne(id);
-	}
+  getArticleById(id: number): Promise<Article> {
+    return this.articleRepository.findOne(id);
+  }
 
-	addArticle(createArticleDto: CreateArticleDto): Promise<Article> {
-		return this.articleRepository.addArticle(createArticleDto);
-	}
+  addArticle(createArticleDto: CreateArticleDto): Promise<Article> {
+    return this.articleRepository.addArticle(createArticleDto);
+  }
 
-	async deleteArticle(id: number): Promise<void> {
-		const result = await this.articleRepository.delete(id);
+  async deleteArticle(id: number): Promise<void> {
+    const result = await this.articleRepository.delete(id);
 
-		if (!result.affected) {
-			throw new NotFoundException(`Article with ID ${id} not found.`);
-		}
-	}
+    if (!result.affected) {
+      throw new NotFoundException(`Article with ID ${id} not found.`);
+    }
+  }
 
-	async updateArticle(
-		id: number,
-		updateArticleDto: UpdateArticleDto,
-	): Promise<Article> {
-		const article = await this.getArticleById(id);
+  async updateArticle(
+    id: number,
+    updateArticleDto: UpdateArticleDto
+  ): Promise<Article> {
+    const article = await this.getArticleById(id);
 
-		if (!article) {
-			throw new NotFoundException('Specified article does not exist.');
-		}
+    if (!article) {
+      throw new NotFoundException('Specified article does not exist.');
+    }
 
-		return this.articleRepository.updateArticle(article, updateArticleDto);
-	}
+    return this.articleRepository.updateArticle(article, updateArticleDto);
+  }
 }

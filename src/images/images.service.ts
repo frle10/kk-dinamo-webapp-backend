@@ -5,15 +5,15 @@ import { Image } from './image.entity';
 
 @Injectable()
 export class ImagesService {
-	constructor(
-		@InjectRepository(ImageRepository) private imageRepository: ImageRepository,
-	) {}
+  constructor(
+    @InjectRepository(ImageRepository) private imageRepository: ImageRepository
+  ) {}
 
-	createImage(image: Express.Multer.File): Promise<Image> {
-		return this.imageRepository.createImage(image);
-	}
+  createImage(image: Express.Multer.File): Promise<Image> {
+    return this.imageRepository.createImage(image);
+  }
 
-	createImages(images: Express.Multer.File[]): Promise<Image[]> {
-		return this.imageRepository.createImages(images);
-	}
+  createImages(images: Express.Multer.File[]): Promise<Image[]> {
+    return this.imageRepository.createImages(images);
+  }
 }
