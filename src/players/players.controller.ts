@@ -21,6 +21,9 @@ import { UpdatePlayerDto } from './dto/update-player.dto';
 export class PlayersController {
   constructor(private playerService: PlayersService) {}
 
+  /**
+   * Get players that satisfy filter criteria given in playerFilterDto.
+   */
   @Get()
   getPlayers(
     @Query(ValidationPipe) playerFilterDto: GetPlayersFilterDto
