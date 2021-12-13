@@ -1,11 +1,4 @@
-import {
-  BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-} from 'typeorm';
-import { Article } from '../webshop/articles/article.entity';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Image extends BaseEntity {
@@ -20,7 +13,4 @@ export class Image extends BaseEntity {
 
   @Column()
   altText: string;
-
-  @ManyToOne(() => Article, (article) => article.images)
-  article: Article;
 }

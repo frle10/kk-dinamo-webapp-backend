@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { ArticleType } from './article.type.enum';
 import { Discount } from './discounts/discount.entity';
@@ -33,9 +33,9 @@ export class Article extends BaseEntity {
   @Column('date')
   dateLastModified: Date;
 
-  @OneToMany(() => Image, (image) => image.article, { eager: true })
-  images: Image[];
-
   @ManyToOne(() => Discount, (discount) => discount.articles, { eager: true })
   discount: Discount;
+
+  @ManyToMany(() => Image, { cascade: true })
+  images: Image[];
 }

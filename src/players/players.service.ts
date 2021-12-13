@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Player } from './player.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
+import { Image } from '../images/image.entity';
 
 @Injectable()
 export class PlayersService {
@@ -19,6 +20,11 @@ export class PlayersService {
 
   getPlayerById(id: number): Promise<Player> {
     return this.playerRepository.findOne(id);
+  }
+
+  async getPlayerPhotos(id: number): Promise<Image[]> {
+    const player = await this.getPlayerById(id);
+    return player.thumbnailImages;
   }
 
   registerPlayer(createPlayerDto: CreatePlayerDto): Promise<Player> {

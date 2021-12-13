@@ -2,9 +2,9 @@ import {
   BaseEntity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
   Entity,
-  JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { PlayerType } from './player.type.enum';
 import { PlayerPosition } from './player.position.enum';
@@ -30,7 +30,7 @@ export class Player extends BaseEntity {
   @Column()
   position: PlayerPosition;
 
-  @OneToOne(() => Image, { eager: true })
-  @JoinColumn()
-  thumbnailImageId: number;
+  @ManyToMany(() => Image, { cascade: true })
+  @JoinTable()
+  thumbnailImages: Image[];
 }

@@ -1,4 +1,11 @@
-import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Image } from 'src/images/image.entity';
+import {
+  BaseEntity,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+} from 'typeorm';
 import { BulletinType } from './bulletin.type.enum';
 
 @Entity()
@@ -20,4 +27,7 @@ export class Bulletin extends BaseEntity {
 
   @Column('date')
   lastModifiedOn: Date;
+
+  @ManyToMany(() => Image, { cascade: true })
+  images: Image[];
 }

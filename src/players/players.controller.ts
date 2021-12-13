@@ -16,6 +16,7 @@ import { PlayersService } from './players.service';
 import { Player } from './player.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
+import { Image } from '../images/image.entity';
 
 @Controller('players')
 export class PlayersController {
@@ -34,6 +35,11 @@ export class PlayersController {
   @Get('/:id')
   getPlayerById(@Param('id', ParseIntPipe) id: number): Promise<Player> {
     return this.playerService.getPlayerById(id);
+  }
+
+  @Get('/:id/photos')
+  getPlayerPhotos(@Param('id', ParseIntPipe) id: number): Promise<Image[]> {
+    return this.playerService.getPlayerPhotos(id);
   }
 
   @Post()

@@ -2,10 +2,9 @@ import {
   Controller,
   Post,
   UseInterceptors,
-  UploadedFile,
   UploadedFiles,
 } from '@nestjs/common';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ImagesService } from './images.service';
 import { Image } from './image.entity';
 import {
@@ -19,15 +18,16 @@ export class ImagesController {
 
   @Post('/uploadPlayerThumbnail')
   @UseInterceptors(
-    FileInterceptor(
-      'thumbnail',
+    FilesInterceptor(
+      'thumbnails',
+      IMAGE_UPLOAD_LIMIT,
       configureImageUpload('./static/images/player-thumbnails')
     )
   )
-  uploadPlayerThumbnail(
-    @UploadedFile() thumbnail: Express.Multer.File
-  ): Promise<Image> {
-    return this.imagesService.createImage(thumbnail);
+  uploadPlayerThumbnails(
+    @UploadedFiles() thumbnails: Express.Multer.File[]
+  ): Promise<Image[]> {
+    return this.imagesService.createImages(thumbnails);
   }
 
   @UseInterceptors(
