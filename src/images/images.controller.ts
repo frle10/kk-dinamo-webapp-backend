@@ -4,7 +4,7 @@ import {
   UseInterceptors,
   UploadedFiles,
 } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ImagesService } from './images.service';
 import { Image } from './image.entity';
 import {
@@ -15,6 +15,14 @@ import {
 @Controller('images')
 export class ImagesController {
   constructor(private imagesService: ImagesService) {}
+
+  @Post()
+  @UseInterceptors(
+    FileInterceptor('thumbnails', configureImageUpload('./static/images'))
+  )
+  createImage(image: Express.Multer.File): Promise<Image> {
+    return this.imagesService.createImage(image);
+  }
 
   @Post('/uploadPlayerThumbnail')
   @UseInterceptors(

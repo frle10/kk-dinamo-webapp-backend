@@ -37,7 +37,7 @@ export class PlayersController {
     return this.playerService.getPlayerById(id);
   }
 
-  @Get('/:id/photos')
+  @Get('/:id/thumbnails')
   getPlayerPhotos(@Param('id', ParseIntPipe) id: number): Promise<Image[]> {
     return this.playerService.getPlayerPhotos(id);
   }

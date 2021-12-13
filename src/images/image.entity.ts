@@ -6,11 +6,11 @@ export class Image extends BaseEntity {
   id: number;
 
   @Column()
-  filePath: string;
+  filepath: string;
 
   @Column()
-  fileName: string;
+  filename: string;
 
-  @Column()
+  @Column({ default: '' })
   altText: string;
 }
