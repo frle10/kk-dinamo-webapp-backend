@@ -34,4 +34,5 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # Static files
-/static/images
+static
+test-assets

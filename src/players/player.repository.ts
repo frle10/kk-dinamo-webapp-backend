@@ -3,6 +3,7 @@ import { GetPlayersFilterDto } from './dto/get-players-filter.dto';
 import { Player } from './player.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
+import { Image } from 'src/images/image.entity';
 
 @EntityRepository(Player)
 export class PlayerRepository extends Repository<Player> {
@@ -49,6 +50,13 @@ export class PlayerRepository extends Repository<Player> {
     if (dateOfBirth) player.dateOfBirth = dateOfBirth;
     if (type) player.type = type;
     if (position) player.position = position;
+
+    await player.save();
+    return player;
+  }
+
+  async uploadPlayerThumbnails(player: Player, thumbnails: Image[]) {
+    if (thumbnails) player.thumbnailImages = thumbnails;
 
     await player.save();
     return player;

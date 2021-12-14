@@ -4,12 +4,15 @@ import { BulletinRepository } from './bulletin.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Bulletin } from './bulletin.entity';
 import { BulletinDto } from './dto/bulletin.dto';
+import { ImageRepository } from '../images/image.repository';
 
 @Injectable()
 export class BulletinsService {
   constructor(
     @InjectRepository(BulletinRepository)
-    private bulletinRepository: BulletinRepository
+    private bulletinRepository: BulletinRepository,
+    @InjectRepository(ImageRepository)
+    private imageRepository: ImageRepository
   ) {}
 
   getBulletins(bulletinFilterDto: GetBulletinsFilterDto): Promise<Bulletin[]> {
@@ -43,5 +46,17 @@ export class BulletinsService {
     }
 
     return this.bulletinRepository.updateBulletin(bulletin, updateBulletinDto);
+  }
+
+  async uploadBulletinImages(id: number, images: Express.Multer.File[]) {
+    const bulletin = await this.getBulletinById(id);
+
+    if (!bulletin) {
+      throw new NotFoundException('Specified bulletin does not exist.');
+    }
+
+    const imgs = await this.imageRepository.createImages(images);
+
+    return this.bulletinRepository.uploadBulletinImages(bulletin, imgs);
   }
 }

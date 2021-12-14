@@ -94,4 +94,11 @@ export class ArticleRepository extends Repository<Article> {
 
     article.dateLastModified = new Date(new Date().toISOString());
   }
+
+  async uploadArticleImages(article: Article, images: Image[]) {
+    if (article) article.images = images;
+
+    await article.save();
+    return article;
+  }
 }

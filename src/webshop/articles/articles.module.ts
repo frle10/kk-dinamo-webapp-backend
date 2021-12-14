@@ -6,9 +6,16 @@ import { ArticleRepository } from './article.repository';
 import { DiscountRepository } from './discounts/discount.repository';
 import { DiscountsController } from './discounts/discounts.controller';
 import { DiscountsService } from './discounts/discounts.service';
+import { ImageRepository } from '../../images/image.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ArticleRepository, DiscountRepository])],
+  imports: [
+    TypeOrmModule.forFeature([
+      ArticleRepository,
+      DiscountRepository,
+      ImageRepository,
+    ]),
+  ],
   controllers: [ArticlesController, DiscountsController],
   providers: [ArticlesService, DiscountsService],
 })

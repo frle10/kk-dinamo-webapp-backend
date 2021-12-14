@@ -5,12 +5,15 @@ import { Article } from './article.entity';
 import { GetArticlesFilterDto } from './dto/get-articles-filter.dto';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { ImageRepository } from '../../images/image.repository';
 
 @Injectable()
 export class ArticlesService {
   constructor(
     @InjectRepository(ArticleRepository)
-    private articleRepository: ArticleRepository
+    private articleRepository: ArticleRepository,
+    @InjectRepository(ImageRepository)
+    private imageRepository: ImageRepository
   ) {}
 
   getArticles(articleFilterDto: GetArticlesFilterDto): Promise<Article[]> {
@@ -44,5 +47,17 @@ export class ArticlesService {
     }
 
     return this.articleRepository.updateArticle(article, updateArticleDto);
+  }
+
+  async uploadArticleImages(id: number, images: Express.Multer.File[]) {
+    const article = await this.getArticleById(id);
+
+    if (!article) {
+      throw new NotFoundException('Specified article does not exist.');
+    }
+
+    const imgs = await this.imageRepository.createImages(images);
+
+    return this.articleRepository.uploadArticleImages(article, imgs);
   }
 }

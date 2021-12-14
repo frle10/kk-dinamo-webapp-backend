@@ -3,6 +3,7 @@ import { Repository, EntityRepository } from 'typeorm';
 import { GetBulletinsFilterDto } from './dto/get-bulletins-filter.dto';
 import { Bulletin } from './bulletin.entity';
 import { BulletinDto } from './dto/bulletin.dto';
+import { Image } from '../images/image.entity';
 
 @EntityRepository(Bulletin)
 export class BulletinRepository extends Repository<Bulletin> {
@@ -53,5 +54,12 @@ export class BulletinRepository extends Repository<Bulletin> {
     bulletin.content = content;
     bulletin.type = type;
     bulletin.lastModifiedOn = new Date(new Date().toISOString());
+  }
+
+  async uploadBulletinImages(bulletin: Bulletin, images: Image[]) {
+    if (bulletin) bulletin.images = images;
+
+    await bulletin.save();
+    return bulletin;
   }
 }
