@@ -11,6 +11,7 @@ import { ImagesService } from '../src/images/images.service';
 describe('Images', () => {
   let app: INestApplication;
 
+  let accessToken: string = '';
   let id: number = 1;
 
   beforeEach(async () => {
@@ -24,9 +25,21 @@ describe('Images', () => {
     await app.init();
   });
 
+  it('/POST signin', async () => {
+    const responseData = await request(app.getHttpServer())
+      .post('/auth/signin')
+      .send({ username: 'frle10', password: 'Aa123456' });
+
+    expect(responseData.status).toBe(200);
+    expect(responseData.body).toHaveProperty('accessToken');
+
+    accessToken = responseData.body.accessToken;
+  });
+
   it('/POST images', async () => {
     const responseData = await request(app.getHttpServer())
       .post('/images')
+      .set({ Authorization: `Bearer ${accessToken}` })
       .attach('image', 'test/test-assets/images/players/kobe-bryant.jpg');
 
     expect(responseData.status).toBe(201);
@@ -41,6 +54,7 @@ describe('Images', () => {
   it('/GET images', () => {
     return request(app.getHttpServer())
       .get('/images')
+      .set({ Authorization: `Bearer ${accessToken}` })
       .expect(200)
       .expect((res) => {
         expect(res.body).not.toHaveLength(0);
@@ -48,7 +62,10 @@ describe('Images', () => {
   });
 
   it('/GET images/:id', () => {
-    return request(app.getHttpServer()).get(`/images/${id}`).expect(200);
+    return request(app.getHttpServer())
+      .get(`/images/${id}`)
+      .set({ Authorization: `Bearer ${accessToken}` })
+      .expect(200);
   });
 
   it('/PATCH images/:id', () => {
@@ -57,6 +74,7 @@ describe('Images', () => {
       .send({
         altText: 'Alternative Text',
       })
+      .set({ Authorization: `Bearer ${accessToken}` })
       .expect(200)
       .expect((res) => {
         expect(res.body.altText).toEqual('Alternative Text');
@@ -66,6 +84,7 @@ describe('Images', () => {
   it('/DELETE images/:id', () => {
     return request(app.getHttpServer())
       .delete(`/images/${id}`)
+      .set({ Authorization: `Bearer ${accessToken}` })
       .expect(204)
       .expect({});
   });

@@ -13,6 +13,7 @@ import { testPlayer } from './test-data/objects';
 describe('Players', () => {
   let app: INestApplication;
 
+  let accessToken: string = '';
   let id: number = 1;
 
   beforeEach(async () => {
@@ -29,9 +30,21 @@ describe('Players', () => {
     await app.init();
   });
 
+  it('/POST signin', async () => {
+    const responseData = await request(app.getHttpServer())
+      .post('/auth/signin')
+      .send({ username: 'frle10', password: 'Aa123456' });
+
+    expect(responseData.status).toBe(200);
+    expect(responseData.body).toHaveProperty('accessToken');
+
+    accessToken = responseData.body.accessToken;
+  });
+
   it('/POST players', async () => {
     const responseData = await request(app.getHttpServer())
       .post('/players')
+      .set({ Authorization: `Bearer ${accessToken}` })
       .send(testPlayer);
 
     expect(responseData.status).toBe(201);
@@ -46,13 +59,17 @@ describe('Players', () => {
   it('/GET players', () => {
     return request(app.getHttpServer())
       .get('/players')
+      .set({ Authorization: `Bearer ${accessToken}` })
       .expect(200)
-      .expect([{ id, ...testPlayer }]);
+      .expect((res) => {
+        expect(res.body).not.toHaveLength(0);
+      });
   });
 
   it('/GET players/:id', () => {
     return request(app.getHttpServer())
       .get(`/players/${id}`)
+      .set({ Authorization: `Bearer ${accessToken}` })
       .expect(200)
       .expect({ id, ...testPlayer });
   });
@@ -60,6 +77,7 @@ describe('Players', () => {
   it('/PATCH players/:id', () => {
     return request(app.getHttpServer())
       .patch(`/players/${id}`)
+      .set({ Authorization: `Bearer ${accessToken}` })
       .send({
         firstName: 'Pero',
       })
@@ -70,6 +88,7 @@ describe('Players', () => {
   it('/DELETE players/:id', () => {
     return request(app.getHttpServer())
       .delete(`/players/${id}`)
+      .set({ Authorization: `Bearer ${accessToken}` })
       .expect(204)
       .expect({});
   });
