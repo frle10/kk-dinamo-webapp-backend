@@ -9,6 +9,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImagesService } from './images.service';
@@ -42,9 +43,9 @@ export class ImagesController {
    */
   @Post()
   @UseInterceptors(
-    FileInterceptor('thumbnails', configureImageUpload('./static/images'))
+    FileInterceptor('image', configureImageUpload('./static/images'))
   )
-  createImage(image: Express.Multer.File): Promise<Image> {
+  createImage(@UploadedFile() image: Express.Multer.File): Promise<Image> {
     return this.imagesService.createImage(image);
   }
 
