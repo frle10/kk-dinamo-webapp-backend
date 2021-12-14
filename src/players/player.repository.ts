@@ -3,7 +3,7 @@ import { GetPlayersFilterDto } from './dto/get-players-filter.dto';
 import { Player } from './player.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
-import { Image } from 'src/images/image.entity';
+import { Image } from '../images/image.entity';
 
 @EntityRepository(Player)
 export class PlayerRepository extends Repository<Player> {

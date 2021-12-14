@@ -12,6 +12,7 @@ import {
   Body,
   UploadedFiles,
   UseInterceptors,
+  HttpCode,
 } from '@nestjs/common';
 import { GetBulletinsFilterDto } from './dto/get-bulletins-filter.dto';
 import { BulletinsService } from './bulletins.service';
@@ -21,7 +22,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import {
   IMAGE_UPLOAD_LIMIT,
   configureImageUpload,
-} from 'src/images/utilities/upload-utility';
+} from '../images/utilities/upload-utility';
 
 @Controller('bulletins')
 export class BulletinsController {
@@ -46,6 +47,7 @@ export class BulletinsController {
   }
 
   @Delete('/:id')
+  @HttpCode(204)
   deleteBulletin(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.bulletinService.deleteBulletin(id);
   }

@@ -12,6 +12,7 @@ import {
   Body,
   UploadedFiles,
   UseInterceptors,
+  HttpCode,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { Article } from './article.entity';
@@ -22,7 +23,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import {
   IMAGE_UPLOAD_LIMIT,
   configureImageUpload,
-} from 'src/images/utilities/upload-utility';
+} from '../../images/utilities/upload-utility';
 
 @Controller('articles')
 export class ArticlesController {
@@ -47,6 +48,7 @@ export class ArticlesController {
   }
 
   @Delete('/:id')
+  @HttpCode(204)
   deleteArticle(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.articleService.deleteArticle(id);
   }

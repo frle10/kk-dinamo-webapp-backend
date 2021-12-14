@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Param,
   Body,
+  HttpCode,
 } from '@nestjs/common';
 import { DiscountsService } from './discounts.service';
 import { Discount } from './discount.entity';
@@ -36,6 +37,7 @@ export class DiscountsController {
   }
 
   @Delete('/:id')
+  @HttpCode(204)
   deleteDiscount(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.discountService.deleteDiscount(id);
   }

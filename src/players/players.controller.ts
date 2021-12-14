@@ -12,6 +12,7 @@ import {
   ParseIntPipe,
   UseInterceptors,
   UploadedFiles,
+  HttpCode,
 } from '@nestjs/common';
 import { GetPlayersFilterDto } from './dto/get-players-filter.dto';
 import { PlayersService } from './players.service';
@@ -23,7 +24,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import {
   configureImageUpload,
   IMAGE_UPLOAD_LIMIT,
-} from 'src/images/utilities/upload-utility';
+} from '../images/utilities/upload-utility';
 
 @Controller('players')
 export class PlayersController {
@@ -69,6 +70,7 @@ export class PlayersController {
    * Deletes the player with specified id if it exists.
    */
   @Delete('/:id')
+  @HttpCode(204)
   deletePlayer(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.playerService.deletePlayer(id);
   }

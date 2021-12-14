@@ -8,6 +8,7 @@ import {
   Body,
   Delete,
   Get,
+  HttpCode,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ImagesService } from './images.service';
@@ -51,6 +52,7 @@ export class ImagesController {
    * Deleted the image with specified id. If such an image does not exist, 404 is returned.
    */
   @Delete('/:id')
+  @HttpCode(204)
   deleteImage(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.imagesService.deleteImage(id);
   }

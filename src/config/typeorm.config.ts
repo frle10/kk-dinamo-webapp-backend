@@ -9,4 +9,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: 'dinamo-database',
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
   synchronize: true,
+  keepConnectionAlive: true,
 };

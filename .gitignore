@@ -36,3 +36,4 @@ lerna-debug.log*
 # Static files
 static
 test-assets
+test/test-data

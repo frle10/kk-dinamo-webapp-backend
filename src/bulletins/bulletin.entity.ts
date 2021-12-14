@@ -1,4 +1,4 @@
-import { Image } from 'src/images/image.entity';
+import { Image } from '../images/image.entity';
 import {
   BaseEntity,
   Entity,

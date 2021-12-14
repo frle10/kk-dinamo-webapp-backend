@@ -6,7 +6,7 @@ import { Player } from './player.entity';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
 import { Image } from '../images/image.entity';
-import { ImageRepository } from 'src/images/image.repository';
+import { ImageRepository } from '../images/image.repository';
 
 @Injectable()
 export class PlayersService {
